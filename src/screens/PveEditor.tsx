@@ -5,7 +5,7 @@ import { updateDraft, deleteDraft, addNatinfToDraft, removeNatinfFromDraft, setD
 import { getCurrentLocation, reverseGeocode } from '../lib/geolocation'
 import { exportDraftToPdf } from '../lib/pveExport'
 import NatinfPicker from '../components/NatinfPicker'
-import { IconMapPin, IconCamera, IconTrash, IconDownload, IconX } from '../components/icons'
+import { IconMapPin, IconCamera, IconTrash, IconDownload, IconX, IconCheck } from '../components/icons'
 
 export default function PveEditor({ draftId, onClose }: { draftId: number; onClose: () => void }) {
   const draft = useLiveQuery(() => db.pveDrafts.get(draftId), [draftId])
@@ -47,7 +47,7 @@ export default function PveEditor({ draftId, onClose }: { draftId: number; onClo
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-sheet" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 640 }}>
+      <div className="modal-sheet with-footer" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 640 }}>
         <div className="modal-header">
           <h2>PVE {draft.immatriculation || 'sans plaque'}</h2>
           <button className="icon-btn" onClick={onClose}>
@@ -55,6 +55,7 @@ export default function PveEditor({ draftId, onClose }: { draftId: number; onClo
           </button>
         </div>
 
+        <div className="modal-scroll">
         <div className="field">
           <label>Immatriculation</label>
           <input
@@ -133,6 +134,13 @@ export default function PveEditor({ draftId, onClose }: { draftId: number; onClo
         <button className="btn danger" style={{ marginTop: '0.6rem' }} onClick={handleDelete}>
           Supprimer ce brouillon
         </button>
+        </div>
+
+        <div className="modal-footer">
+          <button className="btn" onClick={onClose}>
+            <IconCheck style={{ width: 18, height: 18 }} /> Enregistrer
+          </button>
+        </div>
 
         {showPicker && (
           <NatinfPicker

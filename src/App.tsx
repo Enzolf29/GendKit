@@ -10,13 +10,14 @@ import UpdateBanner from './components/UpdateBanner'
 import logo from './assets/logo.png'
 import { IconScale, IconGauge, IconDroplet, IconClipboard, IconInfo } from './components/icons'
 
-const tabs: { id: Tab; label: string; icon: typeof IconScale }[] = [
+const mainTabs: { id: Tab; label: string; icon: typeof IconScale }[] = [
   { id: 'natinf', label: 'NATINF', icon: IconScale },
   { id: 'vitesse', label: 'Vitesse', icon: IconGauge },
   { id: 'alcool', label: 'Alcool', icon: IconDroplet },
   { id: 'pve', label: 'PVE', icon: IconClipboard },
-  { id: 'about', label: 'À propos', icon: IconInfo },
 ]
+
+const aboutTab: { id: Tab; label: string; icon: typeof IconScale } = { id: 'about', label: 'À propos', icon: IconInfo }
 
 const titles: Record<Tab, string> = {
   natinf: 'NATINF',
@@ -32,37 +33,49 @@ function Shell() {
   return (
     <div className="app-shell">
       <UpdateBanner />
-      <nav className="bottom-nav">
-        <div className="brand">
-          <img src={logo} alt="GendKit" />
-          <div>
-            <div className="title">GendKit</div>
-            <div className="subtitle">Boîte à outils</div>
+      <div className="app-body">
+        <nav className="bottom-nav">
+          <div className="brand">
+            <img src={logo} alt="GendKit" />
+            <div>
+              <div className="title">GendKit</div>
+              <div className="subtitle">Boîte à outils</div>
+            </div>
           </div>
-        </div>
-        {tabs.map(({ id, label, icon: Icon }) => (
-          <button key={id} className={tab === id ? 'active' : ''} onClick={() => setTab(id)}>
-            <Icon />
-            {label}
+          {mainTabs.map(({ id, label, icon: Icon }) => (
+            <button key={id} className={tab === id ? 'active' : ''} onClick={() => setTab(id)}>
+              <span className="nav-icon">
+                <Icon />
+              </span>
+              {label}
+            </button>
+          ))}
+          <div className="nav-spacer" />
+          <div className="nav-divider" />
+          <button className={tab === aboutTab.id ? 'active' : ''} onClick={() => setTab(aboutTab.id)}>
+            <span className="nav-icon">
+              <aboutTab.icon />
+            </span>
+            {aboutTab.label}
           </button>
-        ))}
-      </nav>
+        </nav>
 
-      <div className="app-content" style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-        <header className="app-header">
-          <img src={logo} alt="GendKit" />
-          <div>
-            <div className="title">{titles[tab]}</div>
-            <div className="subtitle">GendKit</div>
-          </div>
-        </header>
-        <main className="app-main">
-          {tab === 'natinf' && <NatinfScreen />}
-          {tab === 'vitesse' && <VitesseScreen />}
-          {tab === 'alcool' && <AlcoolScreen />}
-          {tab === 'pve' && <PveScreen />}
-          {tab === 'about' && <AboutScreen />}
-        </main>
+        <div className="app-content">
+          <header className="app-header">
+            <img src={logo} alt="GendKit" />
+            <div>
+              <div className="title">{titles[tab]}</div>
+              <div className="subtitle">GendKit</div>
+            </div>
+          </header>
+          <main className="app-main">
+            {tab === 'natinf' && <NatinfScreen />}
+            {tab === 'vitesse' && <VitesseScreen />}
+            {tab === 'alcool' && <AlcoolScreen />}
+            {tab === 'pve' && <PveScreen />}
+            {tab === 'about' && <AboutScreen />}
+          </main>
+        </div>
       </div>
     </div>
   )

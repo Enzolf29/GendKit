@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../lib/db'
-import { createDraft } from '../lib/pve'
+import { createDraft, deleteDraft } from '../lib/pve'
 import { useAppState, type PendingTransfer } from '../lib/AppState'
 import PveEditor from './PveEditor'
-import { IconPlus, IconMapPin } from '../components/icons'
+import { IconPlus, IconMapPin, IconTrash } from '../components/icons'
 
 export default function PveScreen() {
   const drafts = useLiveQuery(() => db.pveDrafts.orderBy('updatedAt').reverse().toArray())
@@ -30,6 +30,12 @@ export default function PveScreen() {
     setOpenId(id)
   }
 
+  async function supprimer(e: React.MouseEvent, id: number) {
+    e.stopPropagation()
+    if (!confirm('Supprimer ce brouillon de PVE et ses photos ?')) return
+    await deleteDraft(id)
+  }
+
   return (
     <div>
       <button className="btn" onClick={nouveauPve} style={{ marginBottom: '1rem' }}>
@@ -41,8 +47,8 @@ export default function PveScreen() {
       {drafts && drafts.length > 0 && (
         <div className="card">
           {drafts.map((d) => (
-            <div className="list-item" key={d.id} onClick={() => setOpenId(d.id!)}>
-              <div className="content">
+            <div className="list-item" key={d.id}>
+              <div className="content" onClick={() => setOpenId(d.id!)}>
                 <span className="num">{d.immatriculation || 'Sans plaque'}</span>{' '}
                 {d.natinfs.length > 0 && <span className="badge blue">{d.natinfs.length} NATINF</span>}
                 {d.lieu && (
@@ -55,6 +61,9 @@ export default function PveScreen() {
                   Modifié le {new Date(d.updatedAt).toLocaleString('fr-FR')}
                 </div>
               </div>
+              <button className="delete-btn" onClick={(e) => supprimer(e, d.id!)} aria-label="Supprimer">
+                <IconTrash style={{ width: 17, height: 17 }} />
+              </button>
             </div>
           ))}
         </div>

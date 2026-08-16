@@ -1,5 +1,13 @@
 # Journal des versions — GendKit
 
+## 0.1.1 — 2026-08-16
+
+Corrections esthétiques suite aux premiers retours.
+
+- Vrai mode sombre (fond neutre noir) au lieu du bleu marine.
+- Menu latéral desktop redessiné (icônes sur fond teinté, « À propos » séparé en bas).
+- PVE : bouton « Enregistrer » toujours visible en bas de la fiche, et bouton supprimer directement sur chaque brouillon dans la liste.
+
 ## 0.1.0 — 2026-08-16
 
 Première version.

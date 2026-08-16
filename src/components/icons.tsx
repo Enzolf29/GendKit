@@ -129,6 +129,14 @@ export function IconX(props: IconProps) {
   )
 }
 
+export function IconCheck(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M5 12.5 10 17l9-10" />
+    </svg>
+  )
+}
+
 export function IconDownload(props: IconProps) {
   return (
     <svg {...base} {...props}>
