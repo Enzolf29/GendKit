@@ -5,12 +5,14 @@ import { readFileSync } from 'node:fs'
 
 const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf-8'))
 
+// Sur GitHub Pages (page de projet), l'app est servie depuis /<nom-du-repo>/.
+// Le workflow CI positionne VITE_BASE_PATH en conséquence ; en local ou sur
+// Cloudflare Pages (sous-domaine dédié), la racine "/" convient.
+const base = process.env.VITE_BASE_PATH || '/'
+
 // https://vite.dev/config/
 export default defineConfig({
-  // Sur GitHub Pages (page de projet), l'app est servie depuis /<nom-du-repo>/.
-  // Le workflow CI positionne VITE_BASE_PATH en conséquence ; en local ou sur
-  // Cloudflare Pages (sous-domaine dédié), la racine "/" convient.
-  base: process.env.VITE_BASE_PATH || '/',
+  base,
   define: {
     __APP_VERSION__: JSON.stringify(pkg.version),
   },
@@ -28,8 +30,11 @@ export default defineConfig({
         background_color: '#001b47',
         display: 'standalone',
         orientation: 'portrait-primary',
-        start_url: '/',
-        scope: '/',
+        // Doivent pointer vers le chemin réel de déploiement (ex. /GendKit/ sur
+        // GitHub Pages) sinon l'app installée s'ouvre sur la racine du domaine
+        // et tombe sur un 404.
+        start_url: base,
+        scope: base,
         icons: [
           { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png' },
           { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' },

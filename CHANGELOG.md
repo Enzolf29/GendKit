@@ -1,5 +1,12 @@
 # Journal des versions — GendKit
 
+## 0.1.2 — 2026-08-16
+
+Correctif critique d'installation.
+
+- Le manifest PWA pointait `start_url`/`scope` vers la racine du domaine au lieu de `/GendKit/` : l'app installée sur téléphone ouvrait une page 404 au lieu de GendKit. Corrigé — ces valeurs suivent maintenant le chemin réel de déploiement.
+- **Si vous aviez déjà installé l'app avant ce correctif, désinstallez-la et réinstallez-la** (le raccourci créé à l'installation garde l'ancienne cible).
+
 ## 0.1.1 — 2026-08-16
 
 Corrections esthétiques suite aux premiers retours.
