@@ -5,6 +5,7 @@ import { searchNatinf, getAllNatures, natureShortLabel, getNatinfByNumero, natin
 import { getPointsForNatinf } from '../lib/points'
 import { getAmendeForNature } from '../lib/amendes'
 import { getObservation } from '../lib/observations'
+import { useModalBackButton } from '../lib/useModalBackButton'
 import { CATEGORIES, getCategoryIcon } from '../lib/category'
 import { ROUTIER_SUB_CATEGORIES, getRoutierSubSubCategories } from '../lib/routierCategory'
 import { createFolder, addFavorite, removeFavoriteByNatinf, setFavoriteFolder, deleteFolder } from '../lib/favorites'
@@ -306,7 +307,7 @@ function FavorisView({ onOpen }: { onOpen: (numero: string) => void }) {
   )
 }
 
-function NatinfDetail({ entry, onClose }: { entry: NatinfEntry; onClose: () => void }) {
+export function NatinfDetail({ entry, onClose }: { entry: NatinfEntry; onClose: () => void }) {
   const { sendToPve } = useAppState()
   const pointsInfo = getPointsForNatinf(entry.numero)
   const amende = getAmendeForNature(entry.nature)
@@ -315,6 +316,8 @@ function NatinfDetail({ entry, onClose }: { entry: NatinfEntry; onClose: () => v
   const favorite = useLiveQuery(() => db.favorites.where('natinf').equals(entry.numero).first(), [entry.numero])
   const isFavorite = !!favorite
   const folders = useLiveQuery(() => db.favoriteFolders.toArray())
+
+  useModalBackButton(onClose)
 
   async function toggleFavorite() {
     if (isFavorite) {

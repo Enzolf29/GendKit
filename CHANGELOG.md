@@ -1,5 +1,12 @@
 # Journal des versions — GendKit
 
+## 0.4.0 — 2026-08-17
+
+- **Correctif important** : sur mobile, le bouton/geste "retour" quittait l'application au lieu de fermer la fiche NATINF ouverte. Corrigé — il ferme maintenant la fiche, comme la croix. Ce bug empêchait aussi d'ouvrir les fiches dans certains cas (favoris compris), c'est réparé.
+- **Vitesse et Alcool** : le NATINF affiché dans le résultat (et dans les seuils renforcés / cas particuliers de l'écran Alcool) est cliquable pour ouvrir directement sa fiche détaillée, en plus du bouton d'envoi vers PVE.
+- **Observations** enrichies sur les peines complémentaires, notamment la suspension du permis pour les infractions routières : alcool (contravention et délit), stupéfiants, excès de vitesse ≥ 30 km/h, conduite malgré suspension — chaque durée vérifiée individuellement (3 ans pour l'alcool et la vitesse, 5 ans pour les stupéfiants).
+- **PDF PVE** : titre renommé « GendKit — Mémo PVE » ; les photos ne ressortent plus pivotées à 90° (l'orientation de la prise de vue est maintenant correctement appliquée) et respectent leur véritable ratio au lieu d'être déformées.
+
 ## 0.3.1 — 2026-08-16
 
 - Retrait du badge de catégorie sur la fiche NATINF détaillée.

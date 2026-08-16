@@ -5,6 +5,7 @@ import { updateDraft, deleteDraft, addNatinfToDraft, removeNatinfFromDraft, setD
 import { getCurrentLocation, reverseGeocode } from '../lib/geolocation'
 import { exportDraftToPdf } from '../lib/pveExport'
 import NatinfPicker from '../components/NatinfPicker'
+import { useModalBackButton } from '../lib/useModalBackButton'
 import { IconMapPin, IconCamera, IconImage, IconTrash, IconDownload, IconX, IconCheck } from '../components/icons'
 
 export default function PveEditor({ draftId, onClose }: { draftId: number; onClose: () => void }) {
@@ -15,6 +16,8 @@ export default function PveEditor({ draftId, onClose }: { draftId: number; onClo
   const [locError, setLocError] = useState<string | null>(null)
   const [showManualLoc, setShowManualLoc] = useState(false)
   const [manualAddress, setManualAddress] = useState('')
+
+  useModalBackButton(onClose)
 
   if (!draft) return null
 

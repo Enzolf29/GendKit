@@ -1,11 +1,32 @@
 import type { PveDraft, PvePhoto } from './types'
 
-function blobToDataUrl(blob: Blob): Promise<string> {
+// Dessine la photo sur un canvas plutôt que d'injecter les octets bruts du
+// fichier dans le PDF : le navigateur applique alors l'orientation EXIF de la
+// photo (prise en portrait par un téléphone) au moment du dessin, ce qui
+// évite que l'image ressorte pivotée de 90° dans le PDF final.
+function loadPhotoAsCanvasDataUrl(blob: Blob): Promise<{ dataUrl: string; width: number; height: number }> {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = () => resolve(reader.result as string)
-    reader.onerror = reject
-    reader.readAsDataURL(blob)
+    const url = URL.createObjectURL(blob)
+    const img = new Image()
+    img.onload = () => {
+      const canvas = document.createElement('canvas')
+      canvas.width = img.naturalWidth
+      canvas.height = img.naturalHeight
+      const ctx = canvas.getContext('2d')
+      if (!ctx) {
+        URL.revokeObjectURL(url)
+        reject(new Error('Canvas non disponible'))
+        return
+      }
+      ctx.drawImage(img, 0, 0)
+      URL.revokeObjectURL(url)
+      resolve({ dataUrl: canvas.toDataURL('image/jpeg', 0.85), width: canvas.width, height: canvas.height })
+    }
+    img.onerror = () => {
+      URL.revokeObjectURL(url)
+      reject(new Error('Impossible de charger la photo'))
+    }
+    img.src = url
   })
 }
 
@@ -30,7 +51,7 @@ export async function exportDraftToPdf(draft: PveDraft, photos: PvePhoto[]): Pro
 
   doc.setFontSize(16)
   doc.setFont('helvetica', 'bold')
-  doc.text('GendKit — Fiche de préparation PVE', margin, y)
+  doc.text('GendKit — Mémo PVE', margin, y)
   y += 6
   doc.setFontSize(9)
   doc.setFont('helvetica', 'normal')
@@ -105,16 +126,19 @@ export async function exportDraftToPdf(draft: PveDraft, photos: PvePhoto[]): Pro
     doc.text('Photos jointes', margin, y)
     y += 4
 
+    const maxWidth = pageWidth - 2 * margin
+    const maxHeight = pageHeight - 2 * margin
+
     for (const photo of photos) {
-      const dataUrl = await blobToDataUrl(photo.blob)
-      const imgWidth = pageWidth - 2 * margin
-      const imgHeight = imgWidth * 0.65
-      checkPageBreak(imgHeight + 6)
-      try {
-        doc.addImage(dataUrl, 'JPEG', margin, y, imgWidth, imgHeight, undefined, 'MEDIUM')
-      } catch {
-        doc.addImage(dataUrl, 'PNG', margin, y, imgWidth, imgHeight, undefined, 'MEDIUM')
+      const { dataUrl, width, height } = await loadPhotoAsCanvasDataUrl(photo.blob)
+      let imgWidth = maxWidth
+      let imgHeight = (imgWidth * height) / width
+      if (imgHeight > maxHeight) {
+        imgHeight = maxHeight
+        imgWidth = (imgHeight * width) / height
       }
+      checkPageBreak(imgHeight + 6)
+      doc.addImage(dataUrl, 'JPEG', margin, y, imgWidth, imgHeight, undefined, 'MEDIUM')
       y += imgHeight + 6
     }
   }

@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { evaluateSpeed, recidiveInfo, type Cinemometre, type SpeedResult } from '../lib/speed'
+import { getNatinfByNumero } from '../lib/natinf'
 import { useAppState } from '../lib/AppState'
+import { NatinfDetail } from './NatinfScreen'
+import type { NatinfEntry } from '../lib/types'
 import { IconArrowRight } from '../components/icons'
 
 export default function VitesseScreen() {
@@ -9,6 +12,7 @@ export default function VitesseScreen() {
   const [relevee, setRelevee] = useState('')
   const [recidive, setRecidive] = useState(false)
   const [result, setResult] = useState<SpeedResult | null>(null)
+  const [detail, setDetail] = useState<NatinfEntry | null>(null)
   const { sendToPve } = useAppState()
 
   function calculer() {
@@ -73,8 +77,12 @@ export default function VitesseScreen() {
             <div style={{ marginTop: '0.9rem' }}>
               <span className={`badge ${bracket.classe.toLowerCase().includes('délit') ? 'red' : 'amber'}`}>{bracket.classe}</span>
               <p style={{ marginTop: '0.5rem', fontSize: '0.88rem' }}>{bracket.label}</p>
-              <p className="muted small" style={{ marginTop: '0.2rem' }}>
-                NATINF {bracket.natinf}
+              <p
+                className="muted small"
+                style={{ marginTop: '0.2rem', cursor: 'pointer', textDecoration: 'underline' }}
+                onClick={() => setDetail(getNatinfByNumero(bracket.natinf) ?? null)}
+              >
+                NATINF {bracket.natinf} — voir la fiche
               </p>
               <button
                 className="btn"
@@ -100,6 +108,8 @@ export default function VitesseScreen() {
       <div className="disclaimer">
         Marges réglementaires : radar fixe = 5 km/h (&lt;100 km/h) ou 5% au-delà ; radar mobile/embarqué = 10 km/h ou 10% au-delà. Barème de classification à vérifier avant usage officiel, les textes pouvant évoluer.
       </div>
+
+      {detail && <NatinfDetail entry={detail} onClose={() => setDetail(null)} />}
     </div>
   )
 }

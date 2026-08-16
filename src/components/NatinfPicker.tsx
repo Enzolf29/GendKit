@@ -1,11 +1,13 @@
 import { useMemo, useState } from 'react'
 import { searchNatinf } from '../lib/natinf'
+import { useModalBackButton } from '../lib/useModalBackButton'
 import type { NatinfEntry } from '../lib/types'
 import { IconSearch, IconX } from './icons'
 
 export default function NatinfPicker({ onPick, onClose }: { onPick: (entry: NatinfEntry) => void; onClose: () => void }) {
   const [query, setQuery] = useState('')
   const results = useMemo(() => searchNatinf(query, { limit: 80 }), [query])
+  useModalBackButton(onClose)
 
   return (
     <div className="modal-overlay" onClick={onClose}>

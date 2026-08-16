@@ -1,11 +1,15 @@
 import { useState } from 'react'
 import { evaluateAlcohol, reinforcedThresholds, specialCases, type AlcoholResult } from '../lib/alcohol'
+import { getNatinfByNumero } from '../lib/natinf'
 import { useAppState } from '../lib/AppState'
+import { NatinfDetail } from './NatinfScreen'
+import type { NatinfEntry } from '../lib/types'
 import { IconArrowRight } from '../components/icons'
 
 export default function AlcoolScreen() {
   const [mesure, setMesure] = useState('')
   const [result, setResult] = useState<AlcoholResult | null>(null)
+  const [detail, setDetail] = useState<NatinfEntry | null>(null)
   const { sendToPve } = useAppState()
 
   function calculer() {
@@ -49,8 +53,12 @@ export default function AlcoolScreen() {
             <div style={{ marginTop: '0.9rem' }}>
               <span className={`badge ${result.bracket.classe.toLowerCase().includes('délit') ? 'red' : 'amber'}`}>{result.bracket.classe}</span>
               <p style={{ marginTop: '0.5rem', fontSize: '0.88rem' }}>{result.bracket.label}</p>
-              <p className="muted small" style={{ marginTop: '0.2rem' }}>
-                NATINF {result.bracket.natinf}
+              <p
+                className="muted small"
+                style={{ marginTop: '0.2rem', cursor: 'pointer', textDecoration: 'underline' }}
+                onClick={() => setDetail(getNatinfByNumero(result.bracket!.natinf) ?? null)}
+              >
+                NATINF {result.bracket.natinf} — voir la fiche
               </p>
               <button
                 className="btn"
@@ -80,7 +88,7 @@ export default function AlcoolScreen() {
         </p>
         {reinforcedThresholds.map((t) => (
           <div className="natinf-chip" key={t.id}>
-            <div className="content">
+            <div className="content" style={{ cursor: 'pointer' }} onClick={() => setDetail(getNatinfByNumero(t.natinf) ?? null)}>
               {t.label} <span className="muted">— NATINF {t.natinf}</span>
             </div>
             {result && result.valeurRetenue >= t.min && (
@@ -96,7 +104,7 @@ export default function AlcoolScreen() {
         <h2>Cas particuliers</h2>
         {specialCases.map((c) => (
           <div className="natinf-chip" key={c.id}>
-            <div className="content">
+            <div className="content" style={{ cursor: 'pointer' }} onClick={() => setDetail(getNatinfByNumero(c.natinf) ?? null)}>
               {c.label} <span className="muted">— NATINF {c.natinf}</span>
             </div>
             <button onClick={() => sendToPve({ natinf: { numero: c.natinf, qualification: c.label }, note: '' })}>
@@ -109,6 +117,8 @@ export default function AlcoolScreen() {
       <div className="disclaimer">
         Marge éthylomètre (arrêté du 8 juillet 2003, art. 15) : ± 0,032 mg/L sous 0,400 mg/L, ± 8% de 0,400 à 2,000 mg/L, ± 30% au-delà. Barème à vérifier avant usage officiel.
       </div>
+
+      {detail && <NatinfDetail entry={detail} onClose={() => setDetail(null)} />}
     </div>
   )
 }
