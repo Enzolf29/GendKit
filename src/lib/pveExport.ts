@@ -52,10 +52,18 @@ export async function exportDraftToPdf(draft: PveDraft, photos: PvePhoto[]): Pro
   y += 7
 
   doc.setFont('helvetica', 'bold')
+  doc.text('Heure', margin, y)
+  doc.setFont('helvetica', 'normal')
+  doc.text(draft.heure || '—', margin + 45, y)
+  y += 7
+
+  doc.setFont('helvetica', 'bold')
   doc.text('Lieu', margin, y)
   doc.setFont('helvetica', 'normal')
   if (draft.lieu) {
-    const lieuText = draft.lieu.adresse || `${draft.lieu.lat.toFixed(5)}, ${draft.lieu.lng.toFixed(5)} (± ${Math.round(draft.lieu.accuracy)} m)`
+    const lieuText =
+      draft.lieu.adresse ||
+      (draft.lieu.lat != null ? `${draft.lieu.lat.toFixed(5)}, ${draft.lieu.lng!.toFixed(5)} (± ${Math.round(draft.lieu.accuracy ?? 0)} m)` : '—')
     const lines = doc.splitTextToSize(lieuText, pageWidth - margin - 45 - margin)
     doc.text(lines, margin + 45, y)
     y += 5 * lines.length

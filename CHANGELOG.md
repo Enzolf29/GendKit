@@ -1,5 +1,17 @@
 # Journal des versions — GendKit
 
+## 0.3.0 — 2026-08-16
+
+**NATINF** — refonte mobile-first des filtres :
+- Nature et catégorie en gros boutons carrés/pilules à plusieurs lignes (plus de défilement horizontal), icône par catégorie.
+- Nature : retrait des douanières, délits fiscaux et infractions civiles.
+- Vraie navigation par menus pour « Circulation routière » : catégories → sous-catégories → sous-sous-catégories → liste des infractions triée par numéro NATINF, avec fil d'ariane pour remonter.
+
+**PVE** :
+- Nouveau champ **Heure**, pré-rempli à l'heure de rédaction, modifiable manuellement.
+- **Localisation manuelle** en complément du GPS (adresse, lieu-dit, PK...) quand la géolocalisation n'est pas fiable ou disponible.
+- Import de photos **depuis la galerie**, en plus de la prise de photo directe.
+
 ## 0.2.1 — 2026-08-16
 
 - Les filtres NATINF (nature, catégorie) sont désormais des boutons plutôt que des menus déroulants, avec une petite icône par catégorie.

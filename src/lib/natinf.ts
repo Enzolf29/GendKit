@@ -49,11 +49,23 @@ export function getNatinfByNumero(numero: string): NatinfEntry | undefined {
   return byNumero.get(numero.trim())
 }
 
+const EXCLUDED_NATURES = [/douani[eè]re?s?/i, /^délit fiscal$/i, /^infraction civile$/i]
+
 export function getAllNatures(): string[] {
   if (!dataset) return []
   return [...new Set(dataset.infractions.map((e) => e.nature))]
-    .filter((n) => !/douani[eè]re?s?/i.test(n))
+    .filter((n) => !EXCLUDED_NATURES.some((re) => re.test(n)))
     .sort()
+}
+
+export function natureShortLabel(nature: string): string {
+  const m = nature.match(/^Contravention de classe (\d)$/)
+  if (m) {
+    const n = m[1]
+    const suffix = n === '1' ? 'ère' : 'ème'
+    return `${n}${suffix} classe`
+  }
+  return nature
 }
 
 function normalize(s: string): string {
@@ -91,7 +103,11 @@ export function searchNatinf(
   }
 
   if (!q) {
-    return nature || categorie ? results.slice(0, limit) : []
+    if (!nature && !categorie) return []
+    return results
+      .slice()
+      .sort((a, b) => Number(a.numero) - Number(b.numero))
+      .slice(0, limit)
   }
 
   const isNumeric = /^\d+$/.test(q)

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../lib/db'
-import { searchNatinf, getAllNatures, getNatinfByNumero, natinfMeta } from '../lib/natinf'
+import { searchNatinf, getAllNatures, natureShortLabel, getNatinfByNumero, natinfMeta } from '../lib/natinf'
 import { getPointsForNatinf } from '../lib/points'
 import { getAmendeForNature } from '../lib/amendes'
 import { CATEGORIES, getCategory, getCategoryIcon } from '../lib/category'
@@ -15,32 +15,6 @@ function natureBadgeClass(nature: string): string {
   if (nature === 'Crime' || nature.startsWith('Délit')) return 'red'
   if (nature.startsWith('Contravention de classe 5') || nature.startsWith('Contravention de classe 4')) return 'amber'
   return 'blue'
-}
-
-function ChipRow({
-  options,
-  value,
-  onChange,
-  allLabel = 'Toutes',
-}: {
-  options: { label: string; icon?: string }[]
-  value: string
-  onChange: (v: string) => void
-  allLabel?: string
-}) {
-  return (
-    <div className="top-tabs">
-      <button className={value === '' ? 'active' : ''} onClick={() => onChange('')}>
-        {allLabel}
-      </button>
-      {options.map((o) => (
-        <button key={o.label} className={value === o.label ? 'active' : ''} onClick={() => onChange(o.label)}>
-          {o.icon ? o.icon + ' ' : ''}
-          {o.label}
-        </button>
-      ))}
-    </div>
-  )
 }
 
 export default function NatinfScreen() {
@@ -59,10 +33,17 @@ export default function NatinfScreen() {
         categorie: categorie || undefined,
         subCategorie: subCategorie || undefined,
         subSubCategorie: subSubCategorie || undefined,
+        limit: query ? 150 : 400,
       }),
     [query, nature, categorie, subCategorie, subSubCategorie]
   )
   const subSubOptions = subCategorie ? getRoutierSubSubCategories(subCategorie) : []
+
+  function resetToRoot() {
+    setCategorie('')
+    setSubCategorie('')
+    setSubSubCategorie('')
+  }
 
   function onCategorieChange(v: string) {
     setCategorie(v)
@@ -74,6 +55,13 @@ export default function NatinfScreen() {
     setSubCategorie(v)
     setSubSubCategorie('')
   }
+
+  // En navigation (pas de recherche texte), on affiche la liste dès qu'on ne
+  // peut plus descendre d'un niveau : catégorie non-routière, ou sous-catégorie
+  // routière sans enfants, ou sous-sous-catégorie choisie, ou simple filtre nature.
+  const routierHasChildren = categorie === 'Circulation routière' && !subCategorie
+  const routierSubHasChildren = categorie === 'Circulation routière' && subCategorie && subSubOptions.length > 0 && !subSubCategorie
+  const showBrowseList = !query && (nature || categorie) && !routierHasChildren && !routierSubHasChildren
 
   return (
     <div>
@@ -102,46 +90,112 @@ export default function NatinfScreen() {
               </div>
             </div>
 
-            <div className="small muted" style={{ marginBottom: '0.3rem' }}>
+            <div className="small muted" style={{ marginBottom: '0.4rem' }}>
               Nature
             </div>
-            <ChipRow options={natures.map((n) => ({ label: n }))} value={nature} onChange={setNature} />
-
-            <div className="small muted" style={{ margin: '0.6rem 0 0.3rem' }}>
-              Catégorie
+            <div className="pill-grid">
+              <button className={nature === '' ? 'active' : ''} onClick={() => setNature('')}>
+                Toutes
+              </button>
+              {natures.map((n) => (
+                <button key={n} className={nature === n ? 'active' : ''} onClick={() => setNature(n)}>
+                  {natureShortLabel(n)}
+                </button>
+              ))}
             </div>
-            <ChipRow options={CATEGORIES} value={categorie} onChange={onCategorieChange} />
-
-            {categorie === 'Circulation routière' && (
-              <>
-                <div className="small muted" style={{ margin: '0.6rem 0 0.3rem' }}>
-                  Sous-catégorie routière
-                </div>
-                <ChipRow options={ROUTIER_SUB_CATEGORIES.map((s) => ({ label: s }))} value={subCategorie} onChange={onSubCategorieChange} />
-              </>
-            )}
-
-            {subSubOptions.length > 0 && (
-              <>
-                <div className="small muted" style={{ margin: '0.6rem 0 0.3rem' }}>
-                  Précision
-                </div>
-                <ChipRow options={subSubOptions.map((s) => ({ label: s }))} value={subSubCategorie} onChange={setSubSubCategorie} />
-              </>
-            )}
           </div>
+
+          {!query && (
+            <div className="card">
+              {categorie ? (
+                <div className="breadcrumb">
+                  <button onClick={resetToRoot}>📂 Catégories</button>
+                  {categorie && (
+                    <>
+                      <span className="sep">›</span>
+                      {subCategorie || !routierHasChildren ? (
+                        <button
+                          onClick={() => {
+                            setSubCategorie('')
+                            setSubSubCategorie('')
+                          }}
+                        >
+                          {getCategoryIcon(categorie)} {categorie}
+                        </button>
+                      ) : (
+                        <span className="current">
+                          {getCategoryIcon(categorie)} {categorie}
+                        </span>
+                      )}
+                    </>
+                  )}
+                  {subCategorie && (
+                    <>
+                      <span className="sep">›</span>
+                      {subSubCategorie || !routierSubHasChildren ? (
+                        <button onClick={() => setSubSubCategorie('')}>{subCategorie}</button>
+                      ) : (
+                        <span className="current">{subCategorie}</span>
+                      )}
+                    </>
+                  )}
+                  {subSubCategorie && (
+                    <>
+                      <span className="sep">›</span>
+                      <span className="current">{subSubCategorie}</span>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <div className="small muted" style={{ marginBottom: '0.5rem' }}>
+                  Parcourir par catégorie
+                </div>
+              )}
+
+              {!categorie && (
+                <div className="tile-grid">
+                  {CATEGORIES.map((c) => (
+                    <button key={c.label} onClick={() => onCategorieChange(c.label)}>
+                      <span className="tile-icon">{c.icon}</span>
+                      {c.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {routierHasChildren && (
+                <div className="menu-grid">
+                  {ROUTIER_SUB_CATEGORIES.map((s) => (
+                    <button key={s} onClick={() => onSubCategorieChange(s)}>
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {routierSubHasChildren && (
+                <div className="menu-grid">
+                  {subSubOptions.map((s) => (
+                    <button key={s} onClick={() => setSubSubCategorie(s)}>
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
 
           {!query && !nature && !categorie && (
             <div className="empty-state">
-              Tapez un mot-clé (ex. "stationnement", "alcool") ou un numéro NATINF.
+              Tapez un mot-clé, ou parcourez par catégorie ci-dessus.
               <br />
               <span className="small">{natinfMeta.count.toLocaleString('fr-FR')} infractions en base, dataset {natinfMeta.sourceTitle}</span>
             </div>
           )}
 
-          {(query || nature || categorie) && results.length === 0 && <div className="empty-state">Aucun résultat.</div>}
+          {(query || showBrowseList) && results.length === 0 && <div className="empty-state">Aucun résultat.</div>}
 
-          {results.length > 0 && (
+          {(query || showBrowseList) && results.length > 0 && (
             <div className="card">
               {results.map((entry) => (
                 <div className="list-item" key={entry.numero} onClick={() => setSelected(entry)}>
@@ -152,6 +206,7 @@ export default function NatinfScreen() {
                   </div>
                 </div>
               ))}
+              {results.length >= 400 && <p className="small muted" style={{ marginTop: '0.5rem' }}>Affichage limité aux 400 premiers résultats — affinez avec la recherche ou une sous-catégorie.</p>}
             </div>
           )}
         </>

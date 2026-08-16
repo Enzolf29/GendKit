@@ -20,9 +20,9 @@ export interface PvePhoto {
 }
 
 export interface PveLocation {
-  lat: number
-  lng: number
-  accuracy: number
+  lat?: number
+  lng?: number
+  accuracy?: number
   capturedAt: string
   manuel?: boolean
   adresse?: string
@@ -32,6 +32,7 @@ export interface PveDraft {
   id?: number
   createdAt: string
   updatedAt: string
+  heure: string
   immatriculation: string
   natinfs: NatinfRef[]
   observations: string

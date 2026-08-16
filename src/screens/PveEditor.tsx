@@ -5,7 +5,7 @@ import { updateDraft, deleteDraft, addNatinfToDraft, removeNatinfFromDraft, setD
 import { getCurrentLocation, reverseGeocode } from '../lib/geolocation'
 import { exportDraftToPdf } from '../lib/pveExport'
 import NatinfPicker from '../components/NatinfPicker'
-import { IconMapPin, IconCamera, IconTrash, IconDownload, IconX, IconCheck } from '../components/icons'
+import { IconMapPin, IconCamera, IconImage, IconTrash, IconDownload, IconX, IconCheck } from '../components/icons'
 
 export default function PveEditor({ draftId, onClose }: { draftId: number; onClose: () => void }) {
   const draft = useLiveQuery(() => db.pveDrafts.get(draftId), [draftId])
@@ -13,6 +13,8 @@ export default function PveEditor({ draftId, onClose }: { draftId: number; onClo
   const [showPicker, setShowPicker] = useState(false)
   const [locating, setLocating] = useState(false)
   const [locError, setLocError] = useState<string | null>(null)
+  const [showManualLoc, setShowManualLoc] = useState(false)
+  const [manualAddress, setManualAddress] = useState('')
 
   if (!draft) return null
 
@@ -21,13 +23,22 @@ export default function PveEditor({ draftId, onClose }: { draftId: number; onClo
     setLocError(null)
     try {
       const lieu = await getCurrentLocation()
-      const adresse = await reverseGeocode(lieu.lat, lieu.lng)
+      const adresse = await reverseGeocode(lieu.lat!, lieu.lng!)
       await setDraftLocation(draftId, { ...lieu, adresse: adresse ?? undefined })
+      setShowManualLoc(false)
     } catch (err) {
       setLocError(err instanceof Error ? err.message : 'Erreur de géolocalisation')
     } finally {
       setLocating(false)
     }
+  }
+
+  async function saveManualLocation() {
+    const adresse = manualAddress.trim()
+    if (!adresse) return
+    await setDraftLocation(draftId, { adresse, capturedAt: new Date().toISOString(), manuel: true })
+    setManualAddress('')
+    setShowManualLoc(false)
   }
 
   async function onPhotoSelected(e: React.ChangeEvent<HTMLInputElement>) {
@@ -56,34 +67,61 @@ export default function PveEditor({ draftId, onClose }: { draftId: number; onClo
         </div>
 
         <div className="modal-scroll">
-        <div className="field">
-          <label>Immatriculation</label>
-          <input
-            type="text"
-            value={draft.immatriculation}
-            onChange={(e) => updateDraft(draftId, { immatriculation: e.target.value.toUpperCase() })}
-            style={{ textTransform: 'uppercase' }}
-            placeholder="AA-123-AA"
-          />
+        <div style={{ display: 'flex', gap: '0.7rem' }}>
+          <div className="field" style={{ flex: 2 }}>
+            <label>Immatriculation</label>
+            <input
+              type="text"
+              value={draft.immatriculation}
+              onChange={(e) => updateDraft(draftId, { immatriculation: e.target.value.toUpperCase() })}
+              style={{ textTransform: 'uppercase' }}
+              placeholder="AA-123-AA"
+            />
+          </div>
+          <div className="field" style={{ flex: 1 }}>
+            <label>Heure</label>
+            <input type="time" value={draft.heure} onChange={(e) => updateDraft(draftId, { heure: e.target.value })} />
+          </div>
         </div>
 
         <div className="field">
           <label>Lieu</label>
           {draft.lieu ? (
             <div className="disclaimer" style={{ marginBottom: '0.5rem' }}>
-              {draft.lieu.adresse || `${draft.lieu.lat.toFixed(5)}, ${draft.lieu.lng.toFixed(5)}`}
+              {draft.lieu.adresse || (draft.lieu.lat != null ? `${draft.lieu.lat.toFixed(5)}, ${draft.lieu.lng!.toFixed(5)}` : '—')}
               <br />
-              <span className="muted">précision ± {Math.round(draft.lieu.accuracy)} m — {new Date(draft.lieu.capturedAt).toLocaleTimeString('fr-FR')}</span>
+              <span className="muted">
+                {draft.lieu.manuel ? 'Saisie manuelle' : `précision ± ${Math.round(draft.lieu.accuracy ?? 0)} m`} — {new Date(draft.lieu.capturedAt).toLocaleTimeString('fr-FR')}
+              </span>
             </div>
           ) : (
             <div className="empty-state" style={{ padding: '0.8rem' }}>
               Aucune position enregistrée
             </div>
           )}
-          <button className="btn secondary" onClick={localiser} disabled={locating}>
-            <IconMapPin style={{ width: 18, height: 18 }} /> {locating ? 'Localisation...' : 'Localiser ma position'}
-          </button>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button className="btn secondary" onClick={localiser} disabled={locating} style={{ flex: 1 }}>
+              <IconMapPin style={{ width: 18, height: 18 }} /> {locating ? 'Localisation...' : 'GPS'}
+            </button>
+            <button className="btn secondary" onClick={() => setShowManualLoc((v) => !v)} style={{ flex: 1 }}>
+              Saisie manuelle
+            </button>
+          </div>
           {locError && <p className="small" style={{ color: 'var(--red)', marginTop: '0.4rem' }}>{locError}</p>}
+          {showManualLoc && (
+            <div style={{ marginTop: '0.5rem' }}>
+              <input
+                type="text"
+                autoFocus
+                placeholder="Adresse, lieu-dit, PK..."
+                value={manualAddress}
+                onChange={(e) => setManualAddress(e.target.value)}
+              />
+              <button className="btn" style={{ marginTop: '0.5rem' }} onClick={saveManualLocation}>
+                Enregistrer ce lieu
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="field">
@@ -122,8 +160,14 @@ export default function PveEditor({ draftId, onClose }: { draftId: number; onClo
               </div>
             ))}
             <label className="add-photo">
-              <IconCamera style={{ width: 24, height: 24 }} />
+              <IconCamera style={{ width: 22, height: 22 }} />
+              <span className="add-photo-label">Photo</span>
               <input type="file" accept="image/*" capture="environment" multiple onChange={onPhotoSelected} style={{ display: 'none' }} />
+            </label>
+            <label className="add-photo">
+              <IconImage style={{ width: 22, height: 22 }} />
+              <span className="add-photo-label">Galerie</span>
+              <input type="file" accept="image/*" multiple onChange={onPhotoSelected} style={{ display: 'none' }} />
             </label>
           </div>
         </div>

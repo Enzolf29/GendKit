@@ -500,15 +500,20 @@ p {
 
 .photo-grid .add-photo {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0.25rem;
   background: var(--surface-2);
   border: 1px dashed var(--border);
   border-radius: 10px;
   aspect-ratio: 1;
   cursor: pointer;
   color: var(--text-muted);
-  font-size: 1.6rem;
+}
+
+.photo-grid .add-photo-label {
+  font-size: 0.68rem;
 }
 
 .natinf-chip {
@@ -579,6 +584,124 @@ p {
   background: var(--blue);
   border-color: var(--blue);
   color: white;
+}
+
+.pill-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.pill-grid button {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.pill-grid button.active {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: white;
+}
+
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.55rem;
+}
+
+.tile-grid button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 0.8rem 0.4rem;
+  min-height: 84px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+}
+
+.tile-grid button .tile-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.tile-grid button.active {
+  background: rgba(59, 125, 255, 0.16);
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.5rem;
+}
+
+.menu-grid button {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 12px;
+  padding: 0.85rem 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+}
+
+.menu-grid button.active {
+  background: rgba(59, 125, 255, 0.16);
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.7rem;
+  font-size: 0.85rem;
+}
+
+.breadcrumb button {
+  background: none;
+  border: none;
+  color: var(--blue);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.2rem;
+}
+
+.breadcrumb .sep {
+  color: var(--text-muted);
+}
+
+.breadcrumb .current {
+  color: var(--text-muted);
+}
+
+@media (max-width: 400px) {
+  .tile-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .modal-overlay {

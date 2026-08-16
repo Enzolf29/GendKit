@@ -1,11 +1,17 @@
 import { db } from './db'
 import type { PveDraft, NatinfRef, PveLocation } from './types'
 
+function currentLocalTime(): string {
+  const d = new Date()
+  return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`
+}
+
 export async function createDraft(initial: Partial<PveDraft> = {}): Promise<number> {
   const now = new Date().toISOString()
   const draft: PveDraft = {
     createdAt: now,
     updatedAt: now,
+    heure: currentLocalTime(),
     immatriculation: '',
     natinfs: [],
     observations: '',
