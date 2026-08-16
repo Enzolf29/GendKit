@@ -1,0 +1,11 @@
+{
+  "source": "Articles 131-13, R48-1 et s. Code de procédure pénale — montants des amendes forfaitaires par classe de contravention",
+  "lastVerified": "2026-08-16",
+  "classes": {
+    "Contravention de classe 1": { "minoree": null, "forfaitaire": 11, "majoree": 33 },
+    "Contravention de classe 2": { "minoree": 22, "forfaitaire": 35, "majoree": 75 },
+    "Contravention de classe 3": { "minoree": 45, "forfaitaire": 68, "majoree": 180 },
+    "Contravention de classe 4": { "minoree": 90, "forfaitaire": 135, "majoree": 375 },
+    "Contravention de classe 5": { "note": "Pas d'amende forfaitaire : amende judiciaire jusqu'à 1 500 € (3 000 € en cas de récidive prévue par les textes)." }
+  }
+}

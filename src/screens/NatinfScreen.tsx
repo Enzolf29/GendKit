@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { searchNatinf, getAllNatures, natinfMeta } from '../lib/natinf'
 import { getPointsForNatinf } from '../lib/points'
+import { getAmendeForNature } from '../lib/amendes'
 import type { NatinfEntry } from '../lib/types'
 import { useAppState } from '../lib/AppState'
 import { IconSearch, IconX, IconArrowRight } from '../components/icons'
@@ -75,6 +76,8 @@ export default function NatinfScreen() {
 function NatinfDetail({ entry, onClose }: { entry: NatinfEntry; onClose: () => void }) {
   const { sendToPve } = useAppState()
   const pointsInfo = getPointsForNatinf(entry.numero)
+  const amende = getAmendeForNature(entry.nature)
+  const isContravention = entry.nature.startsWith('Contravention')
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -104,6 +107,46 @@ function NatinfDetail({ entry, onClose }: { entry: NatinfEntry; onClose: () => v
         <div className="card">
           <h2>Peines encourues</h2>
           <p className="small">{entry.reprimeePar}</p>
+        </div>
+
+        {isContravention && amende && (
+          <div className="card">
+            <h2>Montant de l'amende</h2>
+            {'note' in amende ? (
+              <p className="small">{amende.note}</p>
+            ) : (
+              <>
+                <div className="result-row">
+                  <span className="muted">Minorée</span>
+                  <span className="value">{amende.minoree !== null ? `${amende.minoree} €` : '—'}</span>
+                </div>
+                <div className="result-row">
+                  <span className="muted">Forfaitaire</span>
+                  <span className="value">{amende.forfaitaire} €</span>
+                </div>
+                <div className="result-row">
+                  <span className="muted">Majorée</span>
+                  <span className="value">{amende.majoree} €</span>
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
+        <div className="card">
+          <h2>Dépistage alcool / stupéfiants</h2>
+          {pointsInfo?.suspensionPermis ? (
+            <p className="small" style={{ marginBottom: '0.6rem' }}>
+              <span className="badge red">Alcool obligatoire</span> — cette infraction est punie de la suspension du permis de conduire : le dépistage d'alcoolémie est obligatoire (art. L234-3 C.route), que l'état du conducteur soit apparent ou non.
+            </p>
+          ) : (
+            <p className="small" style={{ marginBottom: '0.6rem' }}>
+              Non établi pour cette infraction précise — le dépistage d'alcoolémie reste possible à tout moment à l'initiative de l'agent (art. L234-9 C.route), et devient obligatoire si l'infraction est punie de la suspension du permis ou en cas d'accident corporel.
+            </p>
+          )}
+          <p className="small muted">
+            Stupéfiants : dépistage obligatoire uniquement en cas d'accident mortel ou corporel (art. L235-2 C.route) ; en dehors de ce cas, il reste à l'appréciation de l'agent.
+          </p>
         </div>
 
         <button

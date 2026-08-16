@@ -4,6 +4,7 @@ export interface PointsEntry {
   natinf: string
   points: number | 'annulation'
   categorie: string
+  suspensionPermis?: boolean
 }
 
 const data = pointsData as { entries: PointsEntry[] }

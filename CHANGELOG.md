@@ -1,5 +1,10 @@
 # Journal des versions — GendKit
 
+## 0.1.4 — 2026-08-16
+
+- **NATINF** : la fiche détaillée affiche désormais, pour les contraventions, les montants d'amende minorée/forfaitaire/majorée par classe (5e classe : amende judiciaire jusqu'à 1 500 €).
+- Ajout d'une section « Dépistage alcool / stupéfiants » rappelant le cadre légal (art. L234-3 et L234-9 pour l'alcool, L235-2 pour les stupéfiants), avec un repère « Alcool obligatoire » pour les infractions du sous-ensemble vérifié qui sont punies de la suspension du permis de conduire (alcool, stupéfiants, excès de vitesse ≥ 30 km/h, conduite malgré suspension).
+
 ## 0.1.3 — 2026-08-16
 
 - **NATINF** : la fiche détaillée affiche désormais le nombre de points retirés du permis quand l'infraction en fait perdre (barème officiel sécurité routière, ~45 infractions du code de la route couvertes). Les cas de récidive donnant lieu à annulation du permis sont signalés spécifiquement. Les NATINF « redevable de l'amende » (titulaire du certificat d'immatriculation, conducteur non identifié) sont volontairement exclus car ils ne retirent pas de points.
