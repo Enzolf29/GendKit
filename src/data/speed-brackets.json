@@ -1,0 +1,25 @@
+{
+  "source": "Fiches NATINF individuelles (ops.gcommegendarme.fr), art. R.413-14 et L.413-1 du Code de la route",
+  "lastVerified": "2026-08-16",
+  "margins": {
+    "fixe": { "belowThreshold": { "maxSpeed": 100, "flatKmh": 5 }, "aboveThreshold": { "percent": 5 } },
+    "mobile": { "belowThreshold": { "maxSpeed": 100, "flatKmh": 10 }, "aboveThreshold": { "percent": 10 } }
+  },
+  "brackets": [
+    { "minExcess": 0, "maxExcess": 5, "zone": "le50", "natinf": "35273", "classe": "Contravention 4e classe", "label": "Excès inférieur à 5 km/h (limite ≤ 50 km/h)", "points": 1 },
+    { "minExcess": 0, "maxExcess": 5, "zone": "gt50", "natinf": "35274", "classe": "Contravention 3e classe", "label": "Excès inférieur à 5 km/h (limite > 50 km/h)", "points": 1 },
+    { "minExcess": 5, "maxExcess": 20, "zone": "le50", "natinf": "25386", "classe": "Contravention 4e classe", "label": "Excès d'au moins 5 km/h et inférieur à 20 km/h (limite ≤ 50 km/h)", "points": 1 },
+    { "minExcess": 5, "maxExcess": 20, "zone": "gt50", "natinf": "25387", "classe": "Contravention 3e classe", "label": "Excès d'au moins 5 km/h et inférieur à 20 km/h (limite > 50 km/h)", "points": 1 },
+    { "minExcess": 20, "maxExcess": 30, "zone": "any", "natinf": "11302", "classe": "Contravention 4e classe", "label": "Excès d'au moins 20 km/h et inférieur à 30 km/h", "points": 2 },
+    { "minExcess": 30, "maxExcess": 40, "zone": "any", "natinf": "11301", "classe": "Contravention 4e classe", "label": "Excès d'au moins 30 km/h et inférieur à 40 km/h", "points": 3 },
+    { "minExcess": 40, "maxExcess": 50, "zone": "any", "natinf": "21527", "classe": "Contravention 4e classe", "label": "Excès d'au moins 40 km/h et inférieur à 50 km/h", "points": 4 },
+    { "minExcess": 50, "maxExcess": null, "zone": "any", "natinf": "21526", "classe": "Délit", "label": "Excès d'au moins 50 km/h", "points": 6 }
+  ],
+  "recidive": {
+    "note": "En cas de récidive légale d'un excès ≥ 50 km/h dans le délai prévu, utiliser le NATINF de récidive et non le délit simple.",
+    "minExcess": 50,
+    "natinf": "22037",
+    "classe": "Délit (récidive)",
+    "label": "Récidive d'excès de vitesse d'au moins 50 km/h"
+  }
+}

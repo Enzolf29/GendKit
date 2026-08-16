@@ -1,0 +1,27 @@
+{
+  "source": "Arrêté du 8 juillet 2003 relatif au contrôle des éthylomètres (art. 15) ; fiches NATINF (ops.gcommegendarme.fr) ; art. L.234-1 et L.234-2 du Code de la route",
+  "lastVerified": "2026-08-16",
+  "margin": {
+    "note": "Marge de l'éthylomètre appliquée à la valeur mesurée pour obtenir la valeur retenue (toujours en défaveur de l'appareil, donc soustraite).",
+    "tiers": [
+      { "maxValue": 0.4, "type": "flat", "value": 0.032, "label": "< 0,400 mg/L : marge fixe de 0,032 mg/L" },
+      { "maxValue": 2.0, "type": "percent", "value": 8, "label": "0,400 à 2,000 mg/L : marge de 8 %" },
+      { "maxValue": null, "type": "percent", "value": 30, "label": "> 2,000 mg/L : marge de 30 %" }
+    ]
+  },
+  "standardBrackets": [
+    { "min": 0.25, "max": 0.4, "natinf": "13322", "classe": "Contravention 4e classe", "label": "Conduite avec une concentration d'alcool d'au moins 0,25 mg/L (air) / 0,50 g/L (sang)", "points": 6 },
+    { "min": 0.4, "max": null, "natinf": "1247", "classe": "Délit", "label": "Conduite sous l'empire d'un état alcoolique : d'au moins 0,40 mg/L (air) / 0,80 g/L (sang)", "points": 6 }
+  ],
+  "reinforcedThresholds": [
+    { "id": "probatoire", "label": "Permis probatoire", "min": 0.1, "natinf": "31060" },
+    { "id": "apprenti", "label": "Conduite accompagnée / apprenti conducteur", "min": 0.1, "natinf": "31061" },
+    { "id": "transport_commun", "label": "Conducteur de transport en commun", "min": 0.1, "natinf": "25434" },
+    { "id": "ead", "label": "Véhicule équipé d'un éthylotest anti-démarrage (EAD)", "min": 0.1, "natinf": "33329" }
+  ],
+  "specialCases": [
+    { "id": "ivresse_manifeste", "natinf": "41", "classe": "Délit", "label": "Conduite en état d'ivresse manifeste (signes extérieurs, sans mesure chiffrée)" },
+    { "id": "refus_conducteur", "natinf": "51", "classe": "Délit", "label": "Refus par le conducteur de se soumettre aux vérifications tendant à établir l'état alcoolique" },
+    { "id": "refus_verif_accident", "natinf": "2000", "classe": "Délit", "label": "Refus de vérifications à l'occasion d'un accident, crime ou délit" }
+  ]
+}
