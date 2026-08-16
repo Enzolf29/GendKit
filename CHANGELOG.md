@@ -1,5 +1,10 @@
 # Journal des versions — GendKit
 
+## 0.3.1 — 2026-08-16
+
+- Retrait du badge de catégorie sur la fiche NATINF détaillée.
+- Ajout d'une carte « Observation » sur la fiche NATINF pour les remarques ponctuelles vérifiées (n'apparaît que si une remarque existe pour ce NATINF). Première entrée : usage du téléphone tenu en main cumulé avec une autre infraction de conduite → rétention puis suspension du permis possible jusqu'à 6 mois (art. R.224-19-1 C.route).
+
 ## 0.3.0 — 2026-08-16
 
 **NATINF** — refonte mobile-first des filtres :

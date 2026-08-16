@@ -4,7 +4,8 @@ import { db } from '../lib/db'
 import { searchNatinf, getAllNatures, natureShortLabel, getNatinfByNumero, natinfMeta } from '../lib/natinf'
 import { getPointsForNatinf } from '../lib/points'
 import { getAmendeForNature } from '../lib/amendes'
-import { CATEGORIES, getCategory, getCategoryIcon } from '../lib/category'
+import { getObservation } from '../lib/observations'
+import { CATEGORIES, getCategoryIcon } from '../lib/category'
 import { ROUTIER_SUB_CATEGORIES, getRoutierSubSubCategories } from '../lib/routierCategory'
 import { createFolder, addFavorite, removeFavoriteByNatinf, setFavoriteFolder, deleteFolder } from '../lib/favorites'
 import type { NatinfEntry } from '../lib/types'
@@ -310,7 +311,7 @@ function NatinfDetail({ entry, onClose }: { entry: NatinfEntry; onClose: () => v
   const pointsInfo = getPointsForNatinf(entry.numero)
   const amende = getAmendeForNature(entry.nature)
   const isContravention = entry.nature.startsWith('Contravention')
-  const categorie = getCategory(entry)
+  const observation = getObservation(entry.numero)
   const favorite = useLiveQuery(() => db.favorites.where('natinf').equals(entry.numero).first(), [entry.numero])
   const isFavorite = !!favorite
   const folders = useLiveQuery(() => db.favoriteFolders.toArray())
@@ -336,9 +337,6 @@ function NatinfDetail({ entry, onClose }: { entry: NatinfEntry; onClose: () => v
           </button>
         </div>
         <span className={`badge ${natureBadgeClass(entry.nature)}`}>{entry.nature}</span>{' '}
-        <span className="badge">
-          {getCategoryIcon(categorie)} {categorie}
-        </span>{' '}
         {pointsInfo && (
           <span className="badge red">{pointsInfo.points === 'annulation' ? 'Annulation du permis' : `− ${pointsInfo.points} point${pointsInfo.points > 1 ? 's' : ''}`}</span>
         )}
@@ -392,6 +390,13 @@ function NatinfDetail({ entry, onClose }: { entry: NatinfEntry; onClose: () => v
                 </div>
               </>
             )}
+          </div>
+        )}
+
+        {observation && (
+          <div className="card">
+            <h2>Observation</h2>
+            <p className="small">{observation}</p>
           </div>
         )}
 
