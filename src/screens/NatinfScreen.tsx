@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { searchNatinf, getAllNatures, natinfMeta } from '../lib/natinf'
+import { getPointsForNatinf } from '../lib/points'
 import type { NatinfEntry } from '../lib/types'
 import { useAppState } from '../lib/AppState'
 import { IconSearch, IconX, IconArrowRight } from '../components/icons'
@@ -73,6 +74,7 @@ export default function NatinfScreen() {
 
 function NatinfDetail({ entry, onClose }: { entry: NatinfEntry; onClose: () => void }) {
   const { sendToPve } = useAppState()
+  const pointsInfo = getPointsForNatinf(entry.numero)
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -83,8 +85,17 @@ function NatinfDetail({ entry, onClose }: { entry: NatinfEntry; onClose: () => v
             <IconX />
           </button>
         </div>
-        <span className={`badge ${natureBadgeClass(entry.nature)}`}>{entry.nature}</span>
+        <span className={`badge ${natureBadgeClass(entry.nature)}`}>{entry.nature}</span>{' '}
+        {pointsInfo && (
+          <span className="badge red">{pointsInfo.points === 'annulation' ? 'Annulation du permis' : `− ${pointsInfo.points} point${pointsInfo.points > 1 ? 's' : ''}`}</span>
+        )}
         <p style={{ marginTop: '0.7rem', lineHeight: 1.5 }}>{entry.qualification}</p>
+
+        {pointsInfo && (
+          <div className="disclaimer" style={{ marginTop: '0.7rem' }}>
+            Retrait de permis à points : {pointsInfo.categorie}. Barème officiel (sécurité routière), à vérifier avant usage officiel.
+          </div>
+        )}
 
         <div className="card" style={{ marginTop: '1rem' }}>
           <h2>Articles définissant l'infraction</h2>

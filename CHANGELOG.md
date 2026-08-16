@@ -1,5 +1,9 @@
 # Journal des versions — GendKit
 
+## 0.1.3 — 2026-08-16
+
+- **NATINF** : la fiche détaillée affiche désormais le nombre de points retirés du permis quand l'infraction en fait perdre (barème officiel sécurité routière, ~45 infractions du code de la route couvertes). Les cas de récidive donnant lieu à annulation du permis sont signalés spécifiquement. Les NATINF « redevable de l'amende » (titulaire du certificat d'immatriculation, conducteur non identifié) sont volontairement exclus car ils ne retirent pas de points.
+
 ## 0.1.2 — 2026-08-16
 
 Correctif critique d'installation.
