@@ -3,6 +3,7 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../lib/db'
 import { updateDraft, deleteDraft, addNatinfToDraft, removeNatinfFromDraft, setDraftLocation, addPhoto, deletePhoto } from '../lib/pve'
 import { getCurrentLocation, reverseGeocode } from '../lib/geolocation'
+import { recognizePlate } from '../lib/plateOcr'
 import { exportDraftToPdf } from '../lib/pveExport'
 import NatinfPicker from '../components/NatinfPicker'
 import { useModalBackButton } from '../lib/useModalBackButton'
@@ -16,6 +17,8 @@ export default function PveEditor({ draftId, onClose }: { draftId: number; onClo
   const [locError, setLocError] = useState<string | null>(null)
   const [showManualLoc, setShowManualLoc] = useState(false)
   const [manualAddress, setManualAddress] = useState('')
+  const [scanning, setScanning] = useState(false)
+  const [scanError, setScanError] = useState<string | null>(null)
 
   useModalBackButton(onClose)
 
@@ -49,8 +52,43 @@ export default function PveEditor({ draftId, onClose }: { draftId: number; onClo
     if (!files) return
     for (const file of Array.from(files)) {
       await addPhoto(draftId, file, file.name)
+      // Lecture de plaque en arrière-plan : ne remplit le champ que s'il est
+      // encore vide au moment où l'OCR se termine (pas d'écrasement d'une
+      // saisie manuelle entre-temps).
+      const before = await db.pveDrafts.get(draftId)
+      if (before && !before.immatriculation) {
+        recognizePlate(file)
+          .then(async (plate) => {
+            if (!plate) return
+            const current = await db.pveDrafts.get(draftId)
+            if (current && !current.immatriculation) {
+              await updateDraft(draftId, { immatriculation: plate })
+            }
+          })
+          .catch(() => {})
+      }
     }
     e.target.value = ''
+  }
+
+  async function onScanPlate(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file) return
+    setScanning(true)
+    setScanError(null)
+    try {
+      const plate = await recognizePlate(file)
+      if (plate) {
+        await updateDraft(draftId, { immatriculation: plate })
+      } else {
+        setScanError('Plaque non détectée, réessayez ou saisissez-la manuellement.')
+      }
+    } catch {
+      setScanError('Erreur de lecture, réessayez.')
+    } finally {
+      setScanning(false)
+    }
   }
 
   async function handleDelete() {
@@ -73,13 +111,21 @@ export default function PveEditor({ draftId, onClose }: { draftId: number; onClo
         <div style={{ display: 'flex', gap: '0.7rem' }}>
           <div className="field" style={{ flex: 2 }}>
             <label>Immatriculation</label>
-            <input
-              type="text"
-              value={draft.immatriculation}
-              onChange={(e) => updateDraft(draftId, { immatriculation: e.target.value.toUpperCase() })}
-              style={{ textTransform: 'uppercase' }}
-              placeholder="AA-123-AA"
-            />
+            <div style={{ display: 'flex', gap: '0.4rem' }}>
+              <input
+                type="text"
+                value={draft.immatriculation}
+                onChange={(e) => updateDraft(draftId, { immatriculation: e.target.value.toUpperCase() })}
+                style={{ textTransform: 'uppercase', flex: 1 }}
+                placeholder="AA-123-AA"
+              />
+              <label className="scan-plate-btn">
+                {scanning ? <span className="spinner" /> : <IconCamera style={{ width: 20, height: 20 }} />}
+                <input type="file" accept="image/*" capture="environment" onChange={onScanPlate} disabled={scanning} style={{ display: 'none' }} />
+              </label>
+            </div>
+            {scanning && <p className="small muted" style={{ marginTop: '0.35rem' }}>Lecture de la plaque en cours...</p>}
+            {scanError && <p className="small" style={{ marginTop: '0.35rem', color: 'var(--red)' }}>{scanError}</p>}
           </div>
           <div className="field" style={{ flex: 1 }}>
             <label>Heure</label>

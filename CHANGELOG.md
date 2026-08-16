@@ -1,5 +1,11 @@
 # Journal des versions — GendKit
 
+## 0.5.0 — 2026-08-17
+
+- **PVE — lecture automatique de plaque** : un petit bouton appareil photo à côté du champ Immatriculation ouvre la caméra, lit la plaque par reconnaissance de texte (entièrement dans le téléphone, aucune donnée envoyée à un serveur) et remplit le champ.
+- Ajouter une photo (caméra ou galerie) alors que le champ Immatriculation est vide déclenche aussi automatiquement cette lecture en arrière-plan ; le champ n'est jamais écrasé s'il est déjà rempli.
+- Nécessite une connexion réseau la première fois (téléchargement du moteur de lecture, ~quelques Mo, mis en cache par le navigateur ensuite).
+
 ## 0.4.1 — 2026-08-17
 
 - **Correctif** : dans Vitesse, une vitesse relevée inférieure (ou égale) à la vitesse limite affichait à tort une infraction. Corrigé — plus aucune infraction n'est affichée tant que la vitesse retenue ne dépasse pas réellement la limite.
