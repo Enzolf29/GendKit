@@ -1,5 +1,6 @@
 import type { NatinfEntry } from './types'
 import { getCategory } from './category'
+import { getRoutierSubCategory } from './routierCategory'
 
 interface NatinfDataset {
   source: string
@@ -50,7 +51,9 @@ export function getNatinfByNumero(numero: string): NatinfEntry | undefined {
 
 export function getAllNatures(): string[] {
   if (!dataset) return []
-  return [...new Set(dataset.infractions.map((e) => e.nature))].sort()
+  return [...new Set(dataset.infractions.map((e) => e.nature))]
+    .filter((n) => !/douani[eè]re?s?/i.test(n))
+    .sort()
 }
 
 function normalize(s: string): string {
@@ -62,13 +65,15 @@ function normalize(s: string): string {
 
 export function searchNatinf(
   query: string,
-  options: { nature?: string; categorie?: string; limit?: number } = {}
+  options: { nature?: string; categorie?: string; subCategorie?: string; subSubCategorie?: string; limit?: number } = {}
 ): NatinfEntry[] {
   if (!dataset) return []
   const limit = options.limit ?? 150
   const q = normalize(query.trim())
   const nature = options.nature
   const categorie = options.categorie
+  const subCategorie = options.subCategorie
+  const subSubCategorie = options.subSubCategorie
 
   let results = dataset.infractions
 
@@ -77,6 +82,12 @@ export function searchNatinf(
   }
   if (categorie) {
     results = results.filter((e) => getCategory(e) === categorie)
+  }
+  if (categorie === 'Circulation routière' && subCategorie) {
+    results = results.filter((e) => getRoutierSubCategory(e).sub === subCategorie)
+  }
+  if (categorie === 'Circulation routière' && subSubCategorie) {
+    results = results.filter((e) => getRoutierSubCategory(e).subSub === subSubCategorie)
   }
 
   if (!q) {

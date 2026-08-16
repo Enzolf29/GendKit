@@ -4,7 +4,8 @@ import { db } from '../lib/db'
 import { searchNatinf, getAllNatures, getNatinfByNumero, natinfMeta } from '../lib/natinf'
 import { getPointsForNatinf } from '../lib/points'
 import { getAmendeForNature } from '../lib/amendes'
-import { CATEGORY_LABELS, getCategory } from '../lib/category'
+import { CATEGORIES, getCategory, getCategoryIcon } from '../lib/category'
+import { ROUTIER_SUB_CATEGORIES, getRoutierSubSubCategories } from '../lib/routierCategory'
 import { createFolder, addFavorite, removeFavoriteByNatinf, setFavoriteFolder, deleteFolder } from '../lib/favorites'
 import type { NatinfEntry } from '../lib/types'
 import { useAppState } from '../lib/AppState'
@@ -16,14 +17,63 @@ function natureBadgeClass(nature: string): string {
   return 'blue'
 }
 
+function ChipRow({
+  options,
+  value,
+  onChange,
+  allLabel = 'Toutes',
+}: {
+  options: { label: string; icon?: string }[]
+  value: string
+  onChange: (v: string) => void
+  allLabel?: string
+}) {
+  return (
+    <div className="top-tabs">
+      <button className={value === '' ? 'active' : ''} onClick={() => onChange('')}>
+        {allLabel}
+      </button>
+      {options.map((o) => (
+        <button key={o.label} className={value === o.label ? 'active' : ''} onClick={() => onChange(o.label)}>
+          {o.icon ? o.icon + ' ' : ''}
+          {o.label}
+        </button>
+      ))}
+    </div>
+  )
+}
+
 export default function NatinfScreen() {
   const [view, setView] = useState<'recherche' | 'favoris'>('recherche')
   const [query, setQuery] = useState('')
   const [nature, setNature] = useState('')
   const [categorie, setCategorie] = useState('')
+  const [subCategorie, setSubCategorie] = useState('')
+  const [subSubCategorie, setSubSubCategorie] = useState('')
   const [selected, setSelected] = useState<NatinfEntry | null>(null)
   const natures = useMemo(() => getAllNatures(), [])
-  const results = useMemo(() => searchNatinf(query, { nature: nature || undefined, categorie: categorie || undefined }), [query, nature, categorie])
+  const results = useMemo(
+    () =>
+      searchNatinf(query, {
+        nature: nature || undefined,
+        categorie: categorie || undefined,
+        subCategorie: subCategorie || undefined,
+        subSubCategorie: subSubCategorie || undefined,
+      }),
+    [query, nature, categorie, subCategorie, subSubCategorie]
+  )
+  const subSubOptions = subCategorie ? getRoutierSubSubCategories(subCategorie) : []
+
+  function onCategorieChange(v: string) {
+    setCategorie(v)
+    setSubCategorie('')
+    setSubSubCategorie('')
+  }
+
+  function onSubCategorieChange(v: string) {
+    setSubCategorie(v)
+    setSubSubCategorie('')
+  }
 
   return (
     <div>
@@ -39,7 +89,7 @@ export default function NatinfScreen() {
       {view === 'recherche' ? (
         <>
           <div className="card">
-            <div className="field" style={{ marginBottom: '0.6rem' }}>
+            <div className="field" style={{ marginBottom: '0.7rem' }}>
               <div style={{ position: 'relative' }}>
                 <IconSearch className="muted" style={{ position: 'absolute', left: '0.75rem', top: '0.7rem', width: 18, height: 18 }} />
                 <input
@@ -51,22 +101,34 @@ export default function NatinfScreen() {
                 />
               </div>
             </div>
-            <select value={nature} onChange={(e) => setNature(e.target.value)} style={{ width: '100%', background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 10, padding: '0.55rem 0.7rem', color: 'var(--text)', marginBottom: '0.5rem' }}>
-              <option value="">Toutes les natures d'infraction</option>
-              {natures.map((n) => (
-                <option key={n} value={n}>
-                  {n}
-                </option>
-              ))}
-            </select>
-            <select value={categorie} onChange={(e) => setCategorie(e.target.value)} style={{ width: '100%', background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 10, padding: '0.55rem 0.7rem', color: 'var(--text)' }}>
-              <option value="">Toutes les catégories</option>
-              {CATEGORY_LABELS.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
+
+            <div className="small muted" style={{ marginBottom: '0.3rem' }}>
+              Nature
+            </div>
+            <ChipRow options={natures.map((n) => ({ label: n }))} value={nature} onChange={setNature} />
+
+            <div className="small muted" style={{ margin: '0.6rem 0 0.3rem' }}>
+              Catégorie
+            </div>
+            <ChipRow options={CATEGORIES} value={categorie} onChange={onCategorieChange} />
+
+            {categorie === 'Circulation routière' && (
+              <>
+                <div className="small muted" style={{ margin: '0.6rem 0 0.3rem' }}>
+                  Sous-catégorie routière
+                </div>
+                <ChipRow options={ROUTIER_SUB_CATEGORIES.map((s) => ({ label: s }))} value={subCategorie} onChange={onSubCategorieChange} />
+              </>
+            )}
+
+            {subSubOptions.length > 0 && (
+              <>
+                <div className="small muted" style={{ margin: '0.6rem 0 0.3rem' }}>
+                  Précision
+                </div>
+                <ChipRow options={subSubOptions.map((s) => ({ label: s }))} value={subSubCategorie} onChange={setSubSubCategorie} />
+              </>
+            )}
           </div>
 
           {!query && !nature && !categorie && (
@@ -219,7 +281,9 @@ function NatinfDetail({ entry, onClose }: { entry: NatinfEntry; onClose: () => v
           </button>
         </div>
         <span className={`badge ${natureBadgeClass(entry.nature)}`}>{entry.nature}</span>{' '}
-        <span className="badge">{categorie}</span>{' '}
+        <span className="badge">
+          {getCategoryIcon(categorie)} {categorie}
+        </span>{' '}
         {pointsInfo && (
           <span className="badge red">{pointsInfo.points === 'annulation' ? 'Annulation du permis' : `− ${pointsInfo.points} point${pointsInfo.points > 1 ? 's' : ''}`}</span>
         )}

@@ -1,5 +1,11 @@
 # Journal des versions — GendKit
 
+## 0.2.1 — 2026-08-16
+
+- Les filtres NATINF (nature, catégorie) sont désormais des boutons plutôt que des menus déroulants, avec une petite icône par catégorie.
+- Le filtre nature n'affiche plus les variantes douanières (toujours accessibles par la recherche texte).
+- La catégorie « Circulation routière » se déplie en un vrai classement à deux niveaux : 14 sous-catégories (Vitesse, Alcool et stupéfiants, Permis de conduire, Priorités et signalisation, Dépassement et circulation, Stationnement, Équipements, Poids et chargement, Transport, Accidents et fuite, etc.), certaines se subdivisant encore (ex. Alcool et stupéfiants → Alcool / Stupéfiants), construites à partir d'une analyse réelle des 1105 infractions routières du dataset.
+
 ## 0.2.0 — 2026-08-16
 
 - **NATINF** : retrait de la section « Dépistage alcool/stupéfiants » et du texte explicatif sous le badge de points (jugés inutiles à l'usage).
