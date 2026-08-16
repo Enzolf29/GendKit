@@ -137,6 +137,22 @@ export function IconCheck(props: IconProps) {
   )
 }
 
+export function IconStar(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="m12 3 2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5-4.7-4.6 6.5-.9L12 3Z" />
+    </svg>
+  )
+}
+
+export function IconStarFilled(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="m12 3 2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5-4.7-4.6 6.5-.9L12 3Z" />
+    </svg>
+  )
+}
+
 export function IconDownload(props: IconProps) {
   return (
     <svg {...base} {...props}>

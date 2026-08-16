@@ -38,3 +38,17 @@ export interface PveDraft {
   lieu: PveLocation | null
   statut: 'brouillon' | 'archive'
 }
+
+export interface FavoriteFolder {
+  id?: number
+  name: string
+  createdAt: string
+}
+
+export interface Favorite {
+  id?: number
+  natinf: string
+  qualification: string
+  folderId: number | null
+  addedAt: string
+}

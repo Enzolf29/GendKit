@@ -1,4 +1,5 @@
 import type { NatinfEntry } from './types'
+import { getCategory } from './category'
 
 interface NatinfDataset {
   source: string
@@ -61,21 +62,25 @@ function normalize(s: string): string {
 
 export function searchNatinf(
   query: string,
-  options: { nature?: string; limit?: number } = {}
+  options: { nature?: string; categorie?: string; limit?: number } = {}
 ): NatinfEntry[] {
   if (!dataset) return []
   const limit = options.limit ?? 150
   const q = normalize(query.trim())
   const nature = options.nature
+  const categorie = options.categorie
 
   let results = dataset.infractions
 
   if (nature) {
     results = results.filter((e) => e.nature === nature)
   }
+  if (categorie) {
+    results = results.filter((e) => getCategory(e) === categorie)
+  }
 
   if (!q) {
-    return nature ? results.slice(0, limit) : []
+    return nature || categorie ? results.slice(0, limit) : []
   }
 
   const isNumeric = /^\d+$/.test(q)

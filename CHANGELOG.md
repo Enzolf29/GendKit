@@ -1,5 +1,11 @@
 # Journal des versions — GendKit
 
+## 0.2.0 — 2026-08-16
+
+- **NATINF** : retrait de la section « Dépistage alcool/stupéfiants » et du texte explicatif sous le badge de points (jugés inutiles à l'usage).
+- Ajout des **favoris** : bouton étoile sur chaque fiche NATINF, organisables en **dossiers** personnalisés (créer, déplacer, supprimer un dossier sans perdre les favoris qu'il contient), consultables dans un nouvel onglet « Favoris ».
+- Ajout d'un **filtre par catégorie d'infraction** (Circulation routière, Environnement, Droit du travail, Stupéfiants/Santé publique, Douanes, etc.), déduit automatiquement des codes juridiques cités par chaque infraction, combinable avec le filtre par nature existant.
+
 ## 0.1.4 — 2026-08-16
 
 - **NATINF** : la fiche détaillée affiche désormais, pour les contraventions, les montants d'amende minorée/forfaitaire/majorée par classe (5e classe : amende judiciaire jusqu'à 1 500 €).
