@@ -77,16 +77,16 @@ export default function VitesseScreen() {
             <div style={{ marginTop: '0.9rem' }}>
               <span className={`badge ${bracket.classe.toLowerCase().includes('délit') ? 'red' : 'amber'}`}>{bracket.classe}</span>
               <p style={{ marginTop: '0.5rem', fontSize: '0.88rem' }}>{bracket.label}</p>
-              <p
-                className="muted small"
-                style={{ marginTop: '0.2rem', cursor: 'pointer', textDecoration: 'underline' }}
+              <button
+                className="btn secondary"
+                style={{ marginTop: '0.7rem' }}
                 onClick={() => setDetail(getNatinfByNumero(bracket.natinf) ?? null)}
               >
-                NATINF {bracket.natinf} — voir la fiche
-              </p>
+                Voir la fiche NATINF {bracket.natinf}
+              </button>
               <button
                 className="btn"
-                style={{ marginTop: '0.8rem' }}
+                style={{ marginTop: '0.6rem' }}
                 onClick={() =>
                   sendToPve({
                     natinf: { numero: bracket.natinf, qualification: bracket.label },

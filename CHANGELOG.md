@@ -1,5 +1,10 @@
 # Journal des versions — GendKit
 
+## 0.4.1 — 2026-08-17
+
+- **Correctif** : dans Vitesse, une vitesse relevée inférieure (ou égale) à la vitesse limite affichait à tort une infraction. Corrigé — plus aucune infraction n'est affichée tant que la vitesse retenue ne dépasse pas réellement la limite.
+- Le lien « voir la fiche » NATINF dans Vitesse et Alcool est remplacé par un vrai bouton pleine largeur, plus facile à toucher sur téléphone.
+
 ## 0.4.0 — 2026-08-17
 
 - **Correctif important** : sur mobile, le bouton/geste "retour" quittait l'application au lieu de fermer la fiche NATINF ouverte. Corrigé — il ferme maintenant la fiche, comme la croix. Ce bug empêchait aussi d'ouvrir les fiches dans certains cas (favoris compris), c'est réparé.

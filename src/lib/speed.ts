@@ -54,8 +54,11 @@ export function findSpeedBracket(exces: number, vitesseLimite: number): SpeedBra
 
 export function evaluateSpeed(vitesseRelevee: number, vitesseLimite: number, appareil: Cinemometre): SpeedResult {
   const { vitesseRetenue, margeAppliquee } = computeRetainedSpeed(vitesseRelevee, appareil)
-  const exces = Math.max(0, Math.round((vitesseRetenue - vitesseLimite) * 10) / 10)
-  const bracket = findSpeedBracket(exces, vitesseLimite)
+  const diff = Math.round((vitesseRetenue - vitesseLimite) * 10) / 10
+  const exces = Math.max(0, diff)
+  // Pas d'infraction si la vitesse retenue n'excède pas la limite (diff <= 0) :
+  // on ne cherche un palier que s'il y a un excès réel, même minime.
+  const bracket = diff > 0 ? findSpeedBracket(exces, vitesseLimite) : null
 
   return { vitesseRelevee, vitesseRetenue, margeAppliquee, vitesseLimite, exces, bracket }
 }
