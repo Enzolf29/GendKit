@@ -111,12 +111,22 @@ p {
   background: none;
   border: none;
   color: var(--text-muted);
-  padding: 0.4rem;
+  padding: 0.5rem;
   border-radius: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Filet de sécurité : une icône SVG sans width/height explicite (attribut ou
+   style inline) s'écrase à une taille quasi nulle dans ce conteneur flex —
+   c'est ce qui rendait l'étoile "favori" et la croix "fermer" invisibles. */
+.icon-btn svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
 }
 
 .scan-plate-btn {
@@ -761,6 +771,10 @@ p {
 
 .modal-sheet .modal-header h2 {
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .modal-sheet.with-footer {

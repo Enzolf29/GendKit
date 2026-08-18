@@ -1,5 +1,10 @@
 # Journal des versions — GendKit
 
+## 0.6.0 — 2026-08-18
+
+- **Correctif important** : l'étoile "favori" et la croix "fermer" de la fiche NATINF (et des autres fenêtres modales) étaient invisibles sur mobile — les icônes s'écrasaient à une taille quasi nulle faute de dimension explicite dans ce contexte. Corrigé pour toutes les modales de l'app ; testé et confirmé visible et fonctionnel.
+- **Persistance de la recherche** : la recherche, les filtres (nature, catégorie, sous-catégorie routière) et l'onglet actif sont maintenant sauvegardés en continu. Si le téléphone décharge l'application en arrière-plan puis la recharge, vous retrouvez exactement où vous en étiez au lieu de repartir de zéro.
+
 ## 0.5.1 — 2026-08-17
 
 - **Correctif important** : re-vérification complète, un par un, des 46 NATINF du barème de points (suite à un signalement sur le non-port de ceinture par un passager majeur, affiché à tort comme perdant des points). **17 erreurs corrigées** — le schéma general était : seul le conducteur perd des points, jamais le passager (ceinture, casque, gants). Autres corrections : pas de retrait de points pour l'excès de vitesse < 5 km/h, l'usage/détention d'un détecteur de radar, le défaut d'éclairage nocturne, le non-respect de distance de sécurité sur ouvrage à risque, le franchissement de ligne sur bande d'arrêt d'urgence, et la conduite malgré suspension (le permis étant déjà suspendu, il n'y a plus de points à retirer).

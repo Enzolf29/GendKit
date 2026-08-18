@@ -6,6 +6,7 @@ import { getPointsForNatinf } from '../lib/points'
 import { getAmendeForNature } from '../lib/amendes'
 import { getObservation } from '../lib/observations'
 import { useModalBackButton } from '../lib/useModalBackButton'
+import { usePersistentState } from '../lib/usePersistentState'
 import { CATEGORIES, getCategoryIcon } from '../lib/category'
 import { ROUTIER_SUB_CATEGORIES, getRoutierSubSubCategories } from '../lib/routierCategory'
 import { createFolder, addFavorite, removeFavoriteByNatinf, setFavoriteFolder, deleteFolder } from '../lib/favorites'
@@ -20,12 +21,12 @@ function natureBadgeClass(nature: string): string {
 }
 
 export default function NatinfScreen() {
-  const [view, setView] = useState<'recherche' | 'favoris'>('recherche')
-  const [query, setQuery] = useState('')
-  const [nature, setNature] = useState('')
-  const [categorie, setCategorie] = useState('')
-  const [subCategorie, setSubCategorie] = useState('')
-  const [subSubCategorie, setSubSubCategorie] = useState('')
+  const [view, setView] = usePersistentState<'recherche' | 'favoris'>('gendkit-natinf-view', 'recherche')
+  const [query, setQuery] = usePersistentState('gendkit-natinf-query', '')
+  const [nature, setNature] = usePersistentState('gendkit-natinf-nature', '')
+  const [categorie, setCategorie] = usePersistentState('gendkit-natinf-categorie', '')
+  const [subCategorie, setSubCategorie] = usePersistentState('gendkit-natinf-subcategorie', '')
+  const [subSubCategorie, setSubSubCategorie] = usePersistentState('gendkit-natinf-subsubcategorie', '')
   const [selected, setSelected] = useState<NatinfEntry | null>(null)
   const natures = useMemo(() => getAllNatures(), [])
   const results = useMemo(

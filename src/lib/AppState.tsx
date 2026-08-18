@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import type { NatinfRef } from './types'
+import { usePersistentState } from './usePersistentState'
 
 export type Tab = 'natinf' | 'vitesse' | 'alcool' | 'pve' | 'about'
 export type Theme = 'dark' | 'light'
@@ -22,7 +23,7 @@ interface AppStateShape {
 const AppStateContext = createContext<AppStateShape | null>(null)
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
-  const [tab, setTab] = useState<Tab>('natinf')
+  const [tab, setTab] = usePersistentState<Tab>('gendkit-active-tab', 'natinf')
   const [theme, setTheme] = useState<Theme>(() => (localStorage.getItem('gendkit-theme') as Theme) || 'dark')
   const [pendingTransfer, setPendingTransfer] = useState<PendingTransfer | null>(null)
 
