@@ -1,5 +1,10 @@
 # Journal des versions — GendKit
 
+## 0.7.0 — 2026-08-18
+
+- **Classement routier affiné** : le fourre-tout "Autres infractions routières" passe de 33 % à 13 % des 1105 infractions routières, grâce à 6 nouvelles sous-catégories (Âge minimum de conduite, Publicité et enseignes, Amende du titulaire, Obligations administratives et péage, Animaux sur la route, Autres règles de circulation) qui couvrent des cas auparavant non classés.
+- **Navigation simplifiée** : le fil d'ariane cliquable est remplacé par une flèche retour claire en haut à gauche, qui remonte d'un niveau à chaque tap (catégorie → sous-catégorie → sous-sous-catégorie → catégories), avec le titre du niveau actuel affiché à côté.
+
 ## 0.6.1 — 2026-08-18
 
 - **Géolocalisation refusée** : une fois la permission de localisation refusée, le navigateur mémorise ce blocage pour le site et ne réaffiche plus jamais le pop-up automatiquement — réinstaller l'app ou changer les réglages Android ne suffit pas, c'est une limitation du navigateur, pas de l'app. Le message d'erreur explique maintenant précisément quoi faire (réinitialiser l'autorisation du site dans Brave) au lieu d'afficher le message brut du navigateur. Un avertissement apparaît aussi dès l'ouverture d'un PVE si la localisation est déjà bloquée, sans attendre d'appuyer sur GPS.

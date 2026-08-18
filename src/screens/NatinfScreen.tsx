@@ -12,7 +12,7 @@ import { ROUTIER_SUB_CATEGORIES, getRoutierSubSubCategories } from '../lib/routi
 import { createFolder, addFavorite, removeFavoriteByNatinf, setFavoriteFolder, deleteFolder } from '../lib/favorites'
 import type { NatinfEntry } from '../lib/types'
 import { useAppState } from '../lib/AppState'
-import { IconSearch, IconX, IconArrowRight, IconStar, IconStarFilled, IconPlus, IconTrash } from '../components/icons'
+import { IconSearch, IconX, IconArrowRight, IconArrowLeft, IconStar, IconStarFilled, IconPlus, IconTrash } from '../components/icons'
 
 function natureBadgeClass(nature: string): string {
   if (nature === 'Crime' || nature.startsWith('Délit')) return 'red'
@@ -42,10 +42,10 @@ export default function NatinfScreen() {
   )
   const subSubOptions = subCategorie ? getRoutierSubSubCategories(subCategorie) : []
 
-  function resetToRoot() {
-    setCategorie('')
-    setSubCategorie('')
-    setSubSubCategorie('')
+  function goBackOneLevel() {
+    if (subSubCategorie) setSubSubCategorie('')
+    else if (subCategorie) setSubCategorie('')
+    else if (categorie) setCategorie('')
   }
 
   function onCategorieChange(v: string) {
@@ -111,43 +111,16 @@ export default function NatinfScreen() {
           {!query && (
             <div className="card">
               {categorie ? (
-                <div className="breadcrumb">
-                  <button onClick={resetToRoot}>📂 Catégories</button>
-                  {categorie && (
-                    <>
-                      <span className="sep">›</span>
-                      {subCategorie || !routierHasChildren ? (
-                        <button
-                          onClick={() => {
-                            setSubCategorie('')
-                            setSubSubCategorie('')
-                          }}
-                        >
-                          {getCategoryIcon(categorie)} {categorie}
-                        </button>
-                      ) : (
-                        <span className="current">
-                          {getCategoryIcon(categorie)} {categorie}
-                        </span>
-                      )}
-                    </>
-                  )}
-                  {subCategorie && (
-                    <>
-                      <span className="sep">›</span>
-                      {subSubCategorie || !routierSubHasChildren ? (
-                        <button onClick={() => setSubSubCategorie('')}>{subCategorie}</button>
-                      ) : (
-                        <span className="current">{subCategorie}</span>
-                      )}
-                    </>
-                  )}
-                  {subSubCategorie && (
-                    <>
-                      <span className="sep">›</span>
-                      <span className="current">{subSubCategorie}</span>
-                    </>
-                  )}
+                <div className="nav-header">
+                  <button className="back-btn" onClick={goBackOneLevel} aria-label="Retour">
+                    <IconArrowLeft style={{ width: 20, height: 20 }} />
+                  </button>
+                  <div className="nav-title">
+                    {!subCategorie && (
+                      <span style={{ marginRight: '0.35rem' }}>{getCategoryIcon(categorie)}</span>
+                    )}
+                    {subSubCategorie || subCategorie || categorie}
+                  </div>
                 </div>
               ) : (
                 <div className="small muted" style={{ marginBottom: '0.5rem' }}>

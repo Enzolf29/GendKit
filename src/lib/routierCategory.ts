@@ -1,8 +1,10 @@
 import type { NatinfEntry } from './types'
 
-// Sous-classification des infractions "Circulation routière", construite à partir
-// d'une analyse des 1105 infractions réellement présentes dans le dataset (voir
-// scripts d'analyse en historique). Ordre = priorité : premier motif qui matche.
+// Sous-classification des infractions "Circulation routière", construite à
+// partir d'une analyse répétée des 1105 infractions réellement présentes
+// dans le dataset (voir historique) : chaque règle est vérifiée contre le
+// texte réel des infractions, pas devinée. Ordre = priorité : premier motif
+// qui matche. Objectif : réduire au minimum le fourre-tout "Autres".
 interface Rule {
   sub: string
   subSub?: string
@@ -17,7 +19,9 @@ const RULES: Rule[] = [
   { sub: 'Permis de conduire', subSub: 'Suspension, rétention, annulation', pattern: /SUSPENSION|RETENTION DU PERMIS|ANNULATION DU PERMIS|INTERDICTION D.OBTENIR/ },
   { sub: 'Permis de conduire', subSub: 'Apprentissage et permis probatoire', pattern: /PERMIS PROBATOIRE|CONDUITE ACCOMPAGNEE|APPRENTISSAGE ANTICIPE|ELEVE CONDUCTEUR/ },
   { sub: 'Permis de conduire', pattern: /PERMIS DE CONDUIRE/ },
+  { sub: 'Âge minimum de conduite', pattern: /MINEUR DE MOINS DE/ },
   { sub: 'Priorités et signalisation', subSub: 'Feu rouge, stop et cédez-le-passage', pattern: /FEU ROUGE|\bSTOP\b|CEDER LE PASSAGE/ },
+  { sub: 'Publicité et enseignes', pattern: /PUBLICITE|ENSEIGNE/ },
   { sub: 'Priorités et signalisation', pattern: /PRIORITE|PANNEAU|SIGNALISATION/ },
   { sub: 'Accidents et fuite', subSub: 'Délit de fuite', pattern: /DELIT DE FUITE/ },
   { sub: 'Accidents et fuite', subSub: "Refus d'obtempérer", pattern: /OBTEMPERER/ },
@@ -38,6 +42,10 @@ const RULES: Rule[] = [
   { sub: 'Transport de personnes et marchandises', pattern: /TRANSPORT (DE|EN|D.)|\bTAXI\b|VOITURE DE TRANSPORT|VEHICULE DE TRANSPORT/ },
   { sub: 'Assurance et documents', pattern: /ASSURANCE|CERTIFICAT D.IMMATRICULATION|CARTE GRISE/ },
   { sub: 'Navigation intérieure (bateaux)', pattern: /NAVIGATION|\bBATEAU\b/ },
+  { sub: "Amende du titulaire (conducteur non identifié)", pattern: /REDEVABLE DE L.AMENDE/ },
+  { sub: 'Obligations administratives et péage', pattern: /NON DECLARATION|NON PRESENTATION|NON JUSTIFICATION|NON TRANSMISSION|NON ACQUITTEMENT|NON CONSERVATION|PEAGE/ },
+  { sub: 'Animaux sur la route', pattern: /\bANIMAL\b|ANIMAUX|TROUPEAUX|ATTELE|TRACTION ANIMALE/ },
+  { sub: 'Autres règles de circulation', pattern: /^CIRCULATION |^CONDUITE / },
 ]
 
 const OTHER = 'Autres infractions routières'
