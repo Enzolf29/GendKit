@@ -1,5 +1,11 @@
 # Journal des versions — GendKit
 
+## 0.8.1 — 2026-08-18
+
+- **Correctif important — lecture de plaque** : le mode de segmentation utilisé pour la photo n'était pas adapté (Tesseract s'attendait à la mise en page d'un document), ce qui faisait échouer la lecture sur de vraies photos de plaque ("plaque introuvable"). L'image est maintenant prétraitée (niveaux de gris, contraste renforcé, agrandissement si besoin) et analysée en mode "texte épars", adapté à une photo.
+- **Correctif important — fausses plaques** : ajouter une photo de la voiture entière (galerie) pouvait faire apparaître une plaque aléatoire, lue par erreur dans du texte parasite de l'image (carrosserie, reflets...). Le remplissage automatique n'accepte désormais que les lectures à confiance élevée ; en dessous, le champ reste vide plutôt que de se remplir avec une valeur incertaine.
+- **Photos agrandissables** : cliquer sur une photo du PVE l'affiche en plein écran (avec croix pour fermer).
+
 ## 0.8.0 — 2026-08-18
 
 - **Catégories NATINF réorganisées en 2 sections** : en haut, les 6 modes de transport (Code de la route, 2 Roues, Poids Lourds, Maritime, Ferroviaire, Aérien), chacun sous-classé individuellement ; en dessous, séparées par un simple trait, les « Autres infractions », avec Ivresse publique (IPM), Outrage et rébellion et Stupéfiants mises en avant en premier — ces infractions courantes en gendarmerie mais sans lien avec un véhicule restent faciles à trouver au lieu d'être noyées dans « Droit pénal général ».

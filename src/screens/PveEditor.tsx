@@ -20,6 +20,7 @@ export default function PveEditor({ draftId, onClose }: { draftId: number; onClo
   const [scanning, setScanning] = useState(false)
   const [scanError, setScanError] = useState<string | null>(null)
   const [permDenied, setPermDenied] = useState(false)
+  const [enlargedPhotoId, setEnlargedPhotoId] = useState<number | null>(null)
 
   useModalBackButton(onClose)
 
@@ -64,7 +65,10 @@ export default function PveEditor({ draftId, onClose }: { draftId: number; onClo
       // saisie manuelle entre-temps).
       const before = await db.pveDrafts.get(draftId)
       if (before && !before.immatriculation) {
-        recognizePlate(file)
+        // Remplissage automatique et silencieux : seuil de confiance élevé
+        // pour éviter d'inscrire une fausse plaque à partir d'une photo qui
+        // ne montre pas forcément la plaque (véhicule entier, galerie...).
+        recognizePlate(file, { minConfidence: 65 })
           .then(async (plate) => {
             if (!plate) return
             const current = await db.pveDrafts.get(draftId)
@@ -85,7 +89,9 @@ export default function PveEditor({ draftId, onClose }: { draftId: number; onClo
     setScanning(true)
     setScanError(null)
     try {
-      const plate = await recognizePlate(file)
+      // Action volontaire (bouton dédié) : seuil plus bas, l'utilisateur
+      // vérifie le résultat et peut réessayer si besoin.
+      const plate = await recognizePlate(file, { minConfidence: 35 })
       if (plate) {
         await updateDraft(draftId, { immatriculation: plate })
       } else {
@@ -214,7 +220,7 @@ export default function PveEditor({ draftId, onClose }: { draftId: number; onClo
           <div className="photo-grid">
             {photos?.map((p) => (
               <div className="photo" key={p.id}>
-                <img src={URL.createObjectURL(p.blob)} alt={p.name} />
+                <img src={URL.createObjectURL(p.blob)} alt={p.name} onClick={() => setEnlargedPhotoId(p.id!)} />
                 <button onClick={() => deletePhoto(p.id!)}>
                   <IconX style={{ width: 12, height: 12 }} />
                 </button>
@@ -254,6 +260,25 @@ export default function PveEditor({ draftId, onClose }: { draftId: number; onClo
           />
         )}
       </div>
+
+      {enlargedPhotoId != null && (() => {
+        const enlarged = photos?.find((p) => p.id === enlargedPhotoId)
+        if (!enlarged) return null
+        return (
+          <div
+            className="modal-overlay lightbox-overlay"
+            onClick={(e) => {
+              e.stopPropagation()
+              setEnlargedPhotoId(null)
+            }}
+          >
+            <button className="icon-btn lightbox-close" onClick={() => setEnlargedPhotoId(null)}>
+              <IconX />
+            </button>
+            <img className="lightbox-img" src={URL.createObjectURL(enlarged.blob)} alt={enlarged.name} onClick={(e) => e.stopPropagation()} />
+          </div>
+        )
+      })()}
     </div>
   )
 }

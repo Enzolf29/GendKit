@@ -519,6 +519,27 @@ p {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  cursor: pointer;
+}
+
+.lightbox-overlay {
+  align-items: center;
+  z-index: 60;
+}
+
+.lightbox-img {
+  max-width: 92vw;
+  max-height: 88vh;
+  border-radius: 10px;
+  object-fit: contain;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: calc(env(safe-area-inset-top) + 0.8rem);
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.55);
+  color: white;
 }
 
 .photo-grid .photo button {
