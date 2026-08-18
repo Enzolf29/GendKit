@@ -129,34 +129,6 @@ p {
   flex-shrink: 0;
 }
 
-.scan-plate-btn {
-  flex-shrink: 0;
-  width: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  color: var(--blue);
-  cursor: pointer;
-}
-
-.spinner {
-  width: 18px;
-  height: 18px;
-  border: 2px solid var(--border);
-  border-top-color: var(--blue);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .icon-btn:hover {
   background: var(--surface-2);
   color: var(--text);
@@ -741,7 +713,15 @@ p {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  margin-bottom: 0.8rem;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.9rem;
+  box-shadow: var(--shadow);
 }
 
 .nav-header .back-btn {

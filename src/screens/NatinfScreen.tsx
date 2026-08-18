@@ -121,21 +121,23 @@ export default function NatinfScreen() {
             </div>
           </div>
 
-          {!query && (
+          {!query && categorie && (
+            <div className="nav-header">
+              <button className="back-btn" onClick={goBackOneLevel} aria-label="Retour">
+                <IconArrowLeft style={{ width: 20, height: 20 }} />
+              </button>
+              <div className="nav-title">
+                {!subCategorie && (
+                  <span style={{ marginRight: '0.35rem' }}>{getCategoryIcon(categorie)}</span>
+                )}
+                {subSubCategorie || subCategorie || categorie}
+              </div>
+            </div>
+          )}
+
+          {!query && (!categorie || midLevelShown || subHasChildren) && (
             <div className="card">
-              {categorie ? (
-                <div className="nav-header">
-                  <button className="back-btn" onClick={goBackOneLevel} aria-label="Retour">
-                    <IconArrowLeft style={{ width: 20, height: 20 }} />
-                  </button>
-                  <div className="nav-title">
-                    {!subCategorie && (
-                      <span style={{ marginRight: '0.35rem' }}>{getCategoryIcon(categorie)}</span>
-                    )}
-                    {subSubCategorie || subCategorie || categorie}
-                  </div>
-                </div>
-              ) : (
+              {!categorie && (
                 <div className="small muted" style={{ marginBottom: '0.5rem' }}>
                   Parcourir par catégorie
                 </div>

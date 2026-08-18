@@ -1,5 +1,10 @@
 # Journal des versions — GendKit
 
+## 0.9.0 — 2026-08-18
+
+- **Lecture de plaque retirée** : malgré le correctif de la version précédente, la fonctionnalité restait peu fiable en usage réel. Elle est retirée (bouton de scan, remplissage automatique depuis une photo) — l'immatriculation se saisit désormais uniquement à la main.
+- **Correctif important — navigation NATINF** : la flèche retour + nom de catégorie ne restait visible que sur une infime portion du défilement (bug de mise en page : son conteneur ne couvrait pas la liste de résultats). Elle reste maintenant bien en place en haut de l'écran pendant tout le défilement d'une catégorie, et redescend à sa position normale en remontant en haut de la liste.
+
 ## 0.8.1 — 2026-08-18
 
 - **Correctif important — lecture de plaque** : le mode de segmentation utilisé pour la photo n'était pas adapté (Tesseract s'attendait à la mise en page d'un document), ce qui faisait échouer la lecture sur de vraies photos de plaque ("plaque introuvable"). L'image est maintenant prétraitée (niveaux de gris, contraste renforcé, agrandissement si besoin) et analysée en mode "texte épars", adapté à une photo.
