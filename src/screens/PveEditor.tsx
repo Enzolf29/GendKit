@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../lib/db'
 import { updateDraft, deleteDraft, addNatinfToDraft, removeNatinfFromDraft, setDraftLocation, addPhoto, deletePhoto } from '../lib/pve'
-import { getCurrentLocation, reverseGeocode } from '../lib/geolocation'
+import { getCurrentLocation, reverseGeocode, describeGeolocationError, getGeolocationPermissionState } from '../lib/geolocation'
 import { recognizePlate } from '../lib/plateOcr'
 import { exportDraftToPdf } from '../lib/pveExport'
 import NatinfPicker from '../components/NatinfPicker'
@@ -19,8 +19,13 @@ export default function PveEditor({ draftId, onClose }: { draftId: number; onClo
   const [manualAddress, setManualAddress] = useState('')
   const [scanning, setScanning] = useState(false)
   const [scanError, setScanError] = useState<string | null>(null)
+  const [permDenied, setPermDenied] = useState(false)
 
   useModalBackButton(onClose)
+
+  useEffect(() => {
+    getGeolocationPermissionState().then((state) => setPermDenied(state === 'denied'))
+  }, [])
 
   if (!draft) return null
 
@@ -32,8 +37,10 @@ export default function PveEditor({ draftId, onClose }: { draftId: number; onClo
       const adresse = await reverseGeocode(lieu.lat!, lieu.lng!)
       await setDraftLocation(draftId, { ...lieu, adresse: adresse ?? undefined })
       setShowManualLoc(false)
+      setPermDenied(false)
     } catch (err) {
-      setLocError(err instanceof Error ? err.message : 'Erreur de géolocalisation')
+      setLocError(describeGeolocationError(err))
+      getGeolocationPermissionState().then((state) => setPermDenied(state === 'denied'))
     } finally {
       setLocating(false)
     }
@@ -156,6 +163,11 @@ export default function PveEditor({ draftId, onClose }: { draftId: number; onClo
               Saisie manuelle
             </button>
           </div>
+          {permDenied && !locError && (
+            <p className="small" style={{ color: 'var(--red)', marginTop: '0.4rem' }}>
+              Localisation bloquée pour cette application dans le navigateur. Utilisez la saisie manuelle, ou appuyez sur GPS pour voir comment débloquer.
+            </p>
+          )}
           {locError && <p className="small" style={{ color: 'var(--red)', marginTop: '0.4rem' }}>{locError}</p>}
           {showManualLoc && (
             <div style={{ marginTop: '0.5rem' }}>

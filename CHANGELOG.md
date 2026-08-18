@@ -1,5 +1,9 @@
 # Journal des versions — GendKit
 
+## 0.6.1 — 2026-08-18
+
+- **Géolocalisation refusée** : une fois la permission de localisation refusée, le navigateur mémorise ce blocage pour le site et ne réaffiche plus jamais le pop-up automatiquement — réinstaller l'app ou changer les réglages Android ne suffit pas, c'est une limitation du navigateur, pas de l'app. Le message d'erreur explique maintenant précisément quoi faire (réinitialiser l'autorisation du site dans Brave) au lieu d'afficher le message brut du navigateur. Un avertissement apparaît aussi dès l'ouverture d'un PVE si la localisation est déjà bloquée, sans attendre d'appuyer sur GPS.
+
 ## 0.6.0 — 2026-08-18
 
 - **Correctif important** : l'étoile "favori" et la croix "fermer" de la fiche NATINF (et des autres fenêtres modales) étaient invisibles sur mobile — les icônes s'écrasaient à une taille quasi nulle faute de dimension explicite dans ce contexte. Corrigé pour toutes les modales de l'app ; testé et confirmé visible et fonctionnel.
