@@ -1,6 +1,5 @@
 import type { NatinfEntry } from './types'
-import { getCategory } from './category'
-import { getRoutierSubCategory } from './routierCategory'
+import { getTopCategory, getSubCategory } from './transportCategory'
 
 interface NatinfDataset {
   source: string
@@ -93,13 +92,13 @@ export function searchNatinf(
     results = results.filter((e) => e.nature === nature)
   }
   if (categorie) {
-    results = results.filter((e) => getCategory(e) === categorie)
+    results = results.filter((e) => getTopCategory(e) === categorie)
   }
-  if (categorie === 'Circulation routière' && subCategorie) {
-    results = results.filter((e) => getRoutierSubCategory(e).sub === subCategorie)
+  if (categorie && subCategorie) {
+    results = results.filter((e) => getSubCategory(categorie, e).sub === subCategorie)
   }
-  if (categorie === 'Circulation routière' && subSubCategorie) {
-    results = results.filter((e) => getRoutierSubCategory(e).subSub === subSubCategorie)
+  if (categorie && subSubCategorie) {
+    results = results.filter((e) => getSubCategory(categorie, e).subSub === subSubCategorie)
   }
 
   if (!q) {

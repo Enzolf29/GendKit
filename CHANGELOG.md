@@ -1,5 +1,10 @@
 # Journal des versions — GendKit
 
+## 0.8.0 — 2026-08-18
+
+- **Catégories NATINF réorganisées en 2 sections** : en haut, les 6 modes de transport (Code de la route, 2 Roues, Poids Lourds, Maritime, Ferroviaire, Aérien), chacun sous-classé individuellement ; en dessous, séparées par un simple trait, les « Autres infractions », avec Ivresse publique (IPM), Outrage et rébellion et Stupéfiants mises en avant en premier — ces infractions courantes en gendarmerie mais sans lien avec un véhicule restent faciles à trouver au lieu d'être noyées dans « Droit pénal général ».
+- **Retour en haut de page automatique** : ouvrir une catégorie, une sous-catégorie ou revenir en arrière avec la flèche remonte maintenant toujours en haut de la liste, au lieu de rester à la position de défilement précédente.
+
 ## 0.7.0 — 2026-08-18
 
 - **Classement routier affiné** : le fourre-tout "Autres infractions routières" passe de 33 % à 13 % des 1105 infractions routières, grâce à 6 nouvelles sous-catégories (Âge minimum de conduite, Publicité et enseignes, Amende du titulaire, Obligations administratives et péage, Animaux sur la route, Autres règles de circulation) qui couvrent des cas auparavant non classés.

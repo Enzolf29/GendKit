@@ -653,6 +653,12 @@ p {
   gap: 0.55rem;
 }
 
+.section-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 1rem 0 0.3rem;
+}
+
 .tile-grid button {
   display: flex;
   flex-direction: column;

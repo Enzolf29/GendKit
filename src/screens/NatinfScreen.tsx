@@ -7,8 +7,7 @@ import { getAmendeForNature } from '../lib/amendes'
 import { getObservation } from '../lib/observations'
 import { useModalBackButton } from '../lib/useModalBackButton'
 import { usePersistentState } from '../lib/usePersistentState'
-import { CATEGORIES, getCategoryIcon } from '../lib/category'
-import { ROUTIER_SUB_CATEGORIES, getRoutierSubSubCategories } from '../lib/routierCategory'
+import { TRANSPORT_CATEGORIES, OTHER_CATEGORIES, getCategoryIcon, hasSubCategories, getSubCategories, getSubSubCategories } from '../lib/transportCategory'
 import { createFolder, addFavorite, removeFavoriteByNatinf, setFavoriteFolder, deleteFolder } from '../lib/favorites'
 import type { NatinfEntry } from '../lib/types'
 import { useAppState } from '../lib/AppState'
@@ -40,31 +39,45 @@ export default function NatinfScreen() {
       }),
     [query, nature, categorie, subCategorie, subSubCategorie]
   )
-  const subSubOptions = subCategorie ? getRoutierSubSubCategories(subCategorie) : []
+  const subSubOptions = categorie && subCategorie ? getSubSubCategories(categorie, subCategorie) : []
+
+  function scrollToTop() {
+    document.querySelector('.app-main')?.scrollTo({ top: 0 })
+  }
 
   function goBackOneLevel() {
     if (subSubCategorie) setSubSubCategorie('')
     else if (subCategorie) setSubCategorie('')
     else if (categorie) setCategorie('')
+    scrollToTop()
   }
 
   function onCategorieChange(v: string) {
     setCategorie(v)
     setSubCategorie('')
     setSubSubCategorie('')
+    scrollToTop()
   }
 
   function onSubCategorieChange(v: string) {
     setSubCategorie(v)
     setSubSubCategorie('')
+    scrollToTop()
+  }
+
+  function onSubSubCategorieChange(v: string) {
+    setSubSubCategorie(v)
+    scrollToTop()
   }
 
   // En navigation (pas de recherche texte), on affiche la liste dès qu'on ne
-  // peut plus descendre d'un niveau : catégorie non-routière, ou sous-catégorie
-  // routière sans enfants, ou sous-sous-catégorie choisie, ou simple filtre nature.
-  const routierHasChildren = categorie === 'Circulation routière' && !subCategorie
-  const routierSubHasChildren = categorie === 'Circulation routière' && subCategorie && subSubOptions.length > 0 && !subSubCategorie
-  const showBrowseList = !query && (nature || categorie) && !routierHasChildren && !routierSubHasChildren
+  // peut plus descendre d'un niveau : catégorie sans sous-catégories, ou
+  // sous-catégorie sans enfants, ou sous-sous-catégorie choisie, ou simple
+  // filtre nature.
+  const topHasChildren = categorie ? hasSubCategories(categorie) : false
+  const midLevelShown = topHasChildren && !subCategorie
+  const subHasChildren = Boolean(categorie && subCategorie && subSubOptions.length > 0 && !subSubCategorie)
+  const showBrowseList = !query && (nature || categorie) && !midLevelShown && !subHasChildren
 
   return (
     <div>
@@ -129,19 +142,33 @@ export default function NatinfScreen() {
               )}
 
               {!categorie && (
-                <div className="tile-grid">
-                  {CATEGORIES.map((c) => (
-                    <button key={c.label} onClick={() => onCategorieChange(c.label)}>
-                      <span className="tile-icon">{c.icon}</span>
-                      {c.label}
-                    </button>
-                  ))}
-                </div>
+                <>
+                  <div className="tile-grid">
+                    {TRANSPORT_CATEGORIES.map((c) => (
+                      <button key={c.label} onClick={() => onCategorieChange(c.label)}>
+                        <span className="tile-icon">{c.icon}</span>
+                        {c.label}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="section-divider" />
+                  <div className="small muted" style={{ margin: '0.7rem 0 0.5rem' }}>
+                    Autres infractions
+                  </div>
+                  <div className="tile-grid">
+                    {OTHER_CATEGORIES.map((c) => (
+                      <button key={c.label} onClick={() => onCategorieChange(c.label)}>
+                        <span className="tile-icon">{c.icon}</span>
+                        {c.label}
+                      </button>
+                    ))}
+                  </div>
+                </>
               )}
 
-              {routierHasChildren && (
+              {midLevelShown && (
                 <div className="menu-grid">
-                  {ROUTIER_SUB_CATEGORIES.map((s) => (
+                  {getSubCategories(categorie).map((s) => (
                     <button key={s} onClick={() => onSubCategorieChange(s)}>
                       {s}
                     </button>
@@ -149,10 +176,10 @@ export default function NatinfScreen() {
                 </div>
               )}
 
-              {routierSubHasChildren && (
+              {subHasChildren && (
                 <div className="menu-grid">
                   {subSubOptions.map((s) => (
-                    <button key={s} onClick={() => setSubSubCategorie(s)}>
+                    <button key={s} onClick={() => onSubSubCategorieChange(s)}>
                       {s}
                     </button>
                   ))}
