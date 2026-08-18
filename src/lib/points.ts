@@ -2,7 +2,7 @@ import pointsData from '../data/points-permis.json'
 
 export interface PointsEntry {
   natinf: string
-  points: number | 'annulation'
+  points?: number | 'annulation'
   categorie: string
   suspensionPermis?: boolean
 }

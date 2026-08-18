@@ -1,7 +1,7 @@
 {
-  "source": "Barème officiel des retraits de points — securite-routiere.gouv.fr/le-permis-points/infractions-et-retrait-de-points/bareme-des-retraits-de-point (mis à jour le 08/01/2019, en vigueur en 2026), NATINF vérifiés individuellement via ops.gcommegendarme.fr",
-  "lastVerified": "2026-08-16",
-  "note": "Liste non exhaustive : seuls les NATINF du barème officiel identifiés avec certitude sont inclus. Les infractions donnant lieu à une amende forfaitaire transférée au titulaire du certificat d'immatriculation (NATINF « redevable de l'amende ») ne retirent pas de points tant que le conducteur n'est pas identifié, elles sont donc volontairement exclues. Le champ suspensionPermis (quand présent) indique que l'infraction est punie de la peine complémentaire de suspension du permis de conduire, ce qui rend le dépistage d'alcoolémie obligatoire (art. L234-3 C.route) — vérifié individuellement pour ce sous-ensemble, non déduit automatiquement.",
+  "source": "Barème officiel des retraits de points — securite-routiere.gouv.fr/le-permis-points/infractions-et-retrait-de-points/bareme-des-retraits-de-point, NATINF vérifiés individuellement un par un via ops.gcommegendarme.fr (fiche par fiche, pas de déduction par analogie)",
+  "lastVerified": "2026-08-17",
+  "note": "Liste non exhaustive : seuls les NATINF vérifiés individuellement sont inclus. Vérification complète refaite le 17/08/2026 après signalement d'erreurs : plusieurs infractions ne retirent PAS de points contrairement à une intuition symétrique conducteur/passager — notamment le non-port de ceinture, casque ou gants par un PASSAGER (seul le conducteur perd des points), le défaut d'éclairage nocturne, l'usage/détention d'un détecteur de radar, et la conduite malgré suspension (le permis étant déjà suspendu, aucun point n'est retiré). Les NATINF « redevable de l'amende » (titulaire du certificat d'immatriculation, conducteur non identifié) sont volontairement exclus car ils ne retirent pas de points. Le champ suspensionPermis (quand présent) indique que l'infraction est punie de la peine complémentaire de suspension du permis de conduire, ce qui rend le dépistage d'alcoolémie obligatoire (art. L234-3 C.route) — vérifié individuellement pour ce sous-ensemble, non déduit automatiquement.",
   "entries": [
     {
       "natinf": "13322",
@@ -29,8 +29,7 @@
     },
     {
       "natinf": "2000",
-      "points": 6,
-      "categorie": "Refus de vérification d'alcoolémie (accident/délit)",
+      "categorie": "Refus de vérification d'alcoolémie (accident/délit) — pas de retrait de points (vérifié)",
       "suspensionPermis": true
     },
     {
@@ -59,13 +58,11 @@
     },
     {
       "natinf": "35273",
-      "points": 1,
-      "categorie": "Excès de vitesse < 5 km/h"
+      "categorie": "Excès de vitesse < 5 km/h — pas de retrait de points (vérifié)"
     },
     {
       "natinf": "35274",
-      "points": 1,
-      "categorie": "Excès de vitesse < 5 km/h"
+      "categorie": "Excès de vitesse < 5 km/h — pas de retrait de points (vérifié)"
     },
     {
       "natinf": "25386",
@@ -102,73 +99,64 @@
     },
     {
       "natinf": "7557",
-      "points": 6,
-      "categorie": "Usage d'un détecteur/brouilleur de radar"
+      "categorie": "Usage d'un détecteur/brouilleur de radar — pas de retrait de points (vérifié)"
     },
     {
       "natinf": "22909",
-      "points": 6,
-      "categorie": "Détention/transport d'un détecteur/brouilleur de radar"
+      "categorie": "Détention/transport d'un détecteur/brouilleur de radar — pas de retrait de points (vérifié)"
     },
     {
       "natinf": "23800",
       "points": 3,
-      "categorie": "Téléphone tenu en main"
+      "categorie": "Téléphone tenu en main (conducteur)"
     },
     {
       "natinf": "12929",
       "points": 3,
-      "categorie": "Défaut du port de la ceinture de sécurité"
+      "categorie": "Défaut du port de la ceinture de sécurité (conducteur)"
     },
     {
       "natinf": "12930",
-      "points": 3,
-      "categorie": "Défaut du port de la ceinture de sécurité"
+      "categorie": "Défaut du port de la ceinture de sécurité (passager) — pas de retrait de points (vérifié)"
     },
     {
       "natinf": "12931",
       "points": 3,
-      "categorie": "Défaut du port du casque (deux-roues motorisé)"
+      "categorie": "Défaut du port du casque — motocyclette (conducteur)"
     },
     {
       "natinf": "12932",
-      "points": 3,
-      "categorie": "Défaut du port du casque (deux-roues motorisé)"
+      "categorie": "Défaut du port du casque — cyclomoteur (conducteur) — pas de retrait de points (vérifié)"
     },
     {
       "natinf": "12933",
-      "points": 3,
-      "categorie": "Défaut du port du casque (deux-roues motorisé)"
+      "categorie": "Défaut du port du casque — moto/cyclomoteur (passager) — pas de retrait de points (vérifié)"
     },
     {
       "natinf": "22921",
       "points": 3,
-      "categorie": "Défaut du port du casque (deux-roues motorisé)"
+      "categorie": "Défaut du port du casque — tricycle/quadricycle (conducteur)"
     },
     {
       "natinf": "22922",
-      "points": 3,
-      "categorie": "Défaut du port du casque (deux-roues motorisé)"
+      "categorie": "Défaut du port du casque — tricycle/quadricycle (passager) — pas de retrait de points (vérifié)"
     },
     {
       "natinf": "32032",
-      "points": 1,
-      "categorie": "Défaut du port des gants (deux-roues motorisé)"
+      "categorie": "Défaut du port des gants (passager) — pas de retrait de points (vérifié)"
     },
     {
       "natinf": "32033",
       "points": 1,
-      "categorie": "Défaut du port des gants (deux-roues motorisé)"
+      "categorie": "Défaut du port des gants — cyclomoteur (conducteur)"
     },
     {
       "natinf": "32034",
-      "points": 1,
-      "categorie": "Défaut du port des gants (deux-roues motorisé)"
+      "categorie": "Défaut du port des gants — motocyclette (conducteur) — pas de retrait de points (vérifié)"
     },
     {
       "natinf": "32035",
-      "points": 1,
-      "categorie": "Défaut du port des gants (deux-roues motorisé)"
+      "categorie": "Défaut du port des gants — tricycle/quadricycle (conducteur) — pas de retrait de points (vérifié)"
     },
     {
       "natinf": "11326",
@@ -177,8 +165,7 @@
     },
     {
       "natinf": "28649",
-      "points": 1,
-      "categorie": "Franchissement/chevauchement de ligne continue (bande d'arrêt d'urgence)"
+      "categorie": "Franchissement/chevauchement de ligne continue (bande d'arrêt d'urgence) — pas de retrait de points (vérifié)"
     },
     {
       "natinf": "11325",
@@ -212,8 +199,7 @@
     },
     {
       "natinf": "23082",
-      "points": 3,
-      "categorie": "Non-respect des distances de sécurité"
+      "categorie": "Non-respect des distances de sécurité (ouvrage routier à risque) — pas de retrait de points (vérifié)"
     },
     {
       "natinf": "217",
@@ -262,8 +248,7 @@
     },
     {
       "natinf": "11052",
-      "points": 4,
-      "categorie": "Circulation de nuit sans éclairage"
+      "categorie": "Circulation de nuit sans éclairage — pas de retrait de points (vérifié)"
     },
     {
       "natinf": "202",
@@ -292,14 +277,12 @@
     },
     {
       "natinf": "5707",
-      "points": 6,
-      "categorie": "Conduite malgré suspension administrative du permis",
+      "categorie": "Conduite malgré suspension administrative du permis — pas de retrait de points (le permis est déjà suspendu)",
       "suspensionPermis": true
     },
     {
       "natinf": "7953",
-      "points": 6,
-      "categorie": "Conduite malgré suspension judiciaire du permis",
+      "categorie": "Conduite malgré suspension judiciaire du permis — pas de retrait de points (le permis est déjà suspendu)",
       "suspensionPermis": true
     }
   ]

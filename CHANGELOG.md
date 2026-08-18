@@ -1,5 +1,9 @@
 # Journal des versions — GendKit
 
+## 0.5.1 — 2026-08-17
+
+- **Correctif important** : re-vérification complète, un par un, des 46 NATINF du barème de points (suite à un signalement sur le non-port de ceinture par un passager majeur, affiché à tort comme perdant des points). **17 erreurs corrigées** — le schéma general était : seul le conducteur perd des points, jamais le passager (ceinture, casque, gants). Autres corrections : pas de retrait de points pour l'excès de vitesse < 5 km/h, l'usage/détention d'un détecteur de radar, le défaut d'éclairage nocturne, le non-respect de distance de sécurité sur ouvrage à risque, le franchissement de ligne sur bande d'arrêt d'urgence, et la conduite malgré suspension (le permis étant déjà suspendu, il n'y a plus de points à retirer).
+
 ## 0.5.0 — 2026-08-17
 
 - **PVE — lecture automatique de plaque** : un petit bouton appareil photo à côté du champ Immatriculation ouvre la caméra, lit la plaque par reconnaissance de texte (entièrement dans le téléphone, aucune donnée envoyée à un serveur) et remplit le champ.

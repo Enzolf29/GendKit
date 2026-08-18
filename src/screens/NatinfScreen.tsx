@@ -340,7 +340,7 @@ export function NatinfDetail({ entry, onClose }: { entry: NatinfEntry; onClose: 
           </button>
         </div>
         <span className={`badge ${natureBadgeClass(entry.nature)}`}>{entry.nature}</span>{' '}
-        {pointsInfo && (
+        {pointsInfo?.points && (
           <span className="badge red">{pointsInfo.points === 'annulation' ? 'Annulation du permis' : `− ${pointsInfo.points} point${pointsInfo.points > 1 ? 's' : ''}`}</span>
         )}
 
