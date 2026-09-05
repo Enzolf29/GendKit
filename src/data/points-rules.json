@@ -1,0 +1,38 @@
+{
+  "updatedAt": "2026-09-05",
+  "note": "Correspondances explicites NATINF / points du référentiel DSR/GNDC (ONISR 2024, p.74-75), corrigées et complétées avec les textes en vigueur. Une absence ne signifie jamais zéro point.",
+  "sources": {
+    "onisr": { "label": "ONISR — référentiel NATINF / points, bilan 2024, p.74-75", "url": "https://www.onisr.securite-routiere.gouv.fr/sites/default/files/2025-12/Bilan%20des%20infractions%20au%20code%20de%20la%20route%202024.pdf" },
+    "bareme": { "label": "Service Public — barème des retraits de points", "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F31551" },
+    "stup": { "label": "Code de la route — L235-1 et L235-4", "url": "https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006074228/LEGISCTA000006159522/" },
+    "route": { "label": "Code de la route — règles de circulation et équipements", "url": "https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006074228/LEGISCTA000006129092/" },
+    "gants": { "label": "Code de la route — R431-1-2", "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033132243" },
+    "redevable": { "label": "Code de la route — L121-3", "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000039785641" },
+    "sante": { "label": "Code de la santé publique — L3354-2", "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006688134" },
+    "penal": { "label": "Code pénal — 434-41", "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000042343367" },
+    "suspension": { "label": "Code de la route — L224-16 V", "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000039099750" },
+    "blessures": { "label": "Code de la route — L232-3 (depuis le 11 juillet 2025)", "url": "https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006074228/LEGISCTA000006159519/" }
+  },
+  "groups": [
+    { "points": 6, "source": "blessures", "natinfs": ["25", "26", "34", "35", "64", "224", "257", "258", "259", "1241", "6221", "6222", "12314", "12315", "12323", "23758", "23759", "23760", "23989", "23990", "23991", "24000", "24001", "24002", "24003", "24004", "24005", "24006", "24007", "24008", "24009", "24010", "24011", "24012", "24013", "24014", "24015", "24016", "24017", "24018", "24019", "24020", "24021", "35937", "35938", "35939", "35940", "35941", "35942", "35943", "35944", "35945", "35946", "35947"] },
+    { "points": 1, "source": "onisr", "natinfs": ["11326", "25386", "25387", "28649"] },
+    { "points": 2, "source": "onisr", "natinfs": ["6109", "6117", "11302", "22919", "35564"] },
+    { "points": 3, "source": "onisr", "natinfs": ["201", "217", "6093", "6096", "6102", "6105", "6108", "6292", "7538", "11053", "11054", "11055", "11056", "11057", "11058", "11067", "11301", "11325", "12929", "12931", "22060", "22874", "22875", "22876", "22877", "22900", "23082", "23273", "23800", "25611", "26963", "27746", "28159", "28648", "31063", "32050", "32933"] },
+    { "points": 4, "source": "onisr", "natinfs": ["203", "207", "210", "221", "256", "6091", "6111", "6112", "6212", "6223", "11052", "11059", "11060", "11062", "11063", "11064", "11077", "21527", "22917", "22918", "28030"] },
+    { "points": 6, "source": "onisr", "natinfs": ["41", "42", "45", "48", "50", "51", "179", "1247", "2271", "2273", "6245", "6246", "6247", "7557", "8544", "9009", "9164", "11050", "13322", "22037", "22909", "22988", "23761", "25123", "25124", "25434", "25818", "26263", "28650", "31060", "31062", "32935", "32936", "33329", "34489"] },
+    { "points": 6, "source": "route", "natinfs": ["202", "26959", "26960", "28031"], "note": "Priorité piéton : 6 points, y compris dans une aire piétonne ou une zone de rencontre (R415-11)." },
+    { "points": 6, "source": "suspension", "natinfs": ["5707"], "note": "La suspension ne supprime pas le retrait prévu par L224-16 V. Ne pas confondre avec le NATINF 7953 fondé sur le Code pénal." },
+    { "points": 6, "source": "bareme", "natinfs": ["21526", "29130"] },
+    { "points": 6, "source": "stup", "natinfs": ["29256"], "note": "En récidive, la condamnation entraîne également l'annulation de plein droit du permis (L235-4). L'annulation est distincte du barème de points." },
+    { "points": 9, "source": "stup", "natinfs": ["23762", "29259"], "note": "Stupéfiants associés à l'alcool au seuil légal : 9 points depuis le 11 juillet 2025 (L235-1 IV). En récidive, annulation de plein droit en cas de condamnation (L235-4)." },
+    { "points": 3, "source": "route", "natinfs": ["22921"], "note": "Casque : retrait applicable au conducteur d'un véhicule exigeant un permis à points, pas à un quadricycle léger sans permis à points." },
+    { "points": 1, "source": "gants", "natinfs": ["32034", "32035"], "note": "Retrait uniquement si le conducteur doit détenir un permis à points pour ce véhicule. Pas de retrait pour un quadricycle léger sans permis à points." },
+    { "points": 0, "source": "route", "natinfs": ["12930", "12933", "22922"], "note": "Infraction commise par le passager : aucun retrait de points sur son permis." },
+    { "points": 0, "source": "route", "natinfs": ["12932"], "note": "Cyclomoteur : sa conduite n'exige pas de permis à points." },
+    { "points": 0, "source": "gants", "natinfs": ["32032"], "note": "Le passager ne perd pas de point pour le non-port des gants." },
+    { "points": 0, "source": "gants", "natinfs": ["32033"], "note": "Cyclomoteur : sa conduite n'exige pas de permis à points." },
+    { "points": 0, "source": "bareme", "natinfs": ["35273", "35274"], "note": "Excès inférieur à 5 km/h : aucun retrait de points depuis le 1er janvier 2024." },
+    { "points": 0, "source": "sante", "natinfs": ["2000"], "note": "L3354-2 du Code de la santé publique ne prévoit pas de retrait. Ne pas confondre avec le refus du conducteur prévu par L234-8 (NATINF 51 : 6 points)." },
+    { "points": 0, "source": "penal", "natinfs": ["7953"], "note": "Qualification fondée sur l'article 434-41 du Code pénal, sans retrait prévu par cet article. Ne pas confondre avec le NATINF 5707 (L224-16 : 6 points)." }
+  ]
+}

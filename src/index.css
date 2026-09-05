@@ -921,3 +921,9 @@ p {
     max-height: 85vh;
   }
 }
+.release-entry { border-top: 1px solid var(--border); margin-top: 1rem; padding: 0.5rem 0; }
+.release-entry summary { cursor: pointer; min-height: 44px; padding: 0.7rem 0; line-height: 1.5; font-weight: 600; }
+.release-entry time { display: block; font-size: 0.8rem; font-weight: 400; color: var(--text-muted); }
+.release-entry h3 { font-size: 1rem; margin: 0.5rem 0; }
+.release-entry ul { padding-left: 1.2rem; margin: 0.5rem 0; }
+.release-entry li { margin: 0.65rem 0; line-height: 1.5; font-size: 0.9rem; }

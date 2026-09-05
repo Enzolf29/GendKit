@@ -2,6 +2,8 @@ import { natinfMeta } from '../lib/natinf'
 import { useAppState } from '../lib/AppState'
 import logo from '../assets/logo.png'
 import { IconSun, IconMoon } from '../components/icons'
+import releases from '../data/releases.json'
+import { pointsUpdatedAt } from '../lib/points'
 
 export default function AboutScreen() {
   const { theme, toggleTheme } = useAppState()
@@ -15,6 +17,28 @@ export default function AboutScreen() {
         <p className="muted small" style={{ marginTop: '0.4rem' }}>
           Version {__APP_VERSION__}
         </p>
+      </div>
+
+      <section className="card" aria-labelledby="release-history-title">
+        <h2 id="release-history-title">Historique des mises à jour</h2>
+        <p className="small muted">Les dernières nouveautés, disponibles aussi hors connexion.</p>
+        {releases.map((release, index) => (
+          <details key={release.version} className="release-entry" open={index === 0}>
+            <summary>
+              <span>Version {release.version}{release.version === __APP_VERSION__ ? ' · installée' : ''}</span>
+              <time dateTime={release.date}>{new Date(`${release.date}T12:00:00`).toLocaleDateString('fr-FR')}</time>
+            </summary>
+            <h3>{release.title}</h3>
+            <ul>{release.changes.map((change) => <li key={change}>{change}</li>)}</ul>
+          </details>
+        ))}
+        <a className="small" href="https://github.com/Enzolf29/GendKit/blob/main/CHANGELOG.md" target="_blank" rel="noreferrer">Journal complet sur GitHub (connexion nécessaire)</a>
+      </section>
+
+      <div className="card">
+        <h2>Barème de points</h2>
+        <p className="small">Dernière mise à jour : {new Date(`${pointsUpdatedAt}T12:00:00`).toLocaleDateString('fr-FR')}.</p>
+        <p className="small muted">Référentiel ONISR complété par les textes officiels. La couverture reste partielle : une fiche non renseignée ne signifie pas zéro point.</p>
       </div>
 
       <div className="card">

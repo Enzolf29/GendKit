@@ -312,7 +312,7 @@ function FavorisView({ onOpen }: { onOpen: (numero: string) => void }) {
 
 export function NatinfDetail({ entry, onClose }: { entry: NatinfEntry; onClose: () => void }) {
   const { sendToPve } = useAppState()
-  const pointsInfo = getPointsForNatinf(entry.numero)
+  const pointsInfo = getPointsForNatinf(entry)
   const amende = getAmendeForNature(entry.nature)
   const isContravention = entry.nature.startsWith('Contravention')
   const observation = getObservation(entry.numero)
@@ -343,8 +343,10 @@ export function NatinfDetail({ entry, onClose }: { entry: NatinfEntry; onClose: 
           </button>
         </div>
         <span className={`badge ${natureBadgeClass(entry.nature)}`}>{entry.nature}</span>{' '}
-        {pointsInfo?.points && (
-          <span className="badge red">{pointsInfo.points === 'annulation' ? 'Annulation du permis' : `− ${pointsInfo.points} point${pointsInfo.points > 1 ? 's' : ''}`}</span>
+        {pointsInfo && (
+          <span className={`badge ${pointsInfo.points > 0 ? 'red' : 'blue'}`}>
+            {pointsInfo.points === 0 ? 'Aucun retrait de points' : `− ${pointsInfo.points} point${pointsInfo.points > 1 ? 's' : ''}`}
+          </span>
         )}
 
         {isFavorite && folders && folders.length > 0 && (
@@ -365,6 +367,20 @@ export function NatinfDetail({ entry, onClose }: { entry: NatinfEntry; onClose: 
         )}
 
         <p style={{ marginTop: '0.7rem', lineHeight: 1.5 }}>{entry.qualification}</p>
+
+        <div className="card" style={{ marginTop: '1rem' }}>
+          <h2>Retrait de points</h2>
+          {pointsInfo ? (
+            <>
+              <p>{pointsInfo.points === 0 ? 'Aucun retrait de points pour cette qualification.' : `${pointsInfo.points} point${pointsInfo.points > 1 ? 's' : ''}`}</p>
+              {pointsInfo.note && <p className="small" style={{ marginTop: '0.5rem' }}>{pointsInfo.note}</p>}
+              {pointsInfo.points > 0 && <p className="small muted" style={{ marginTop: '0.5rem' }}>Barème applicable dans les conditions prévues par le texte, notamment à la conduite d'un véhicule exigeant un permis à points. L'annulation éventuelle du permis est une sanction distincte.</p>}
+              <a className="small" href={pointsInfo.source.url} target="_blank" rel="noreferrer" style={{ display: 'inline-block', padding: '0.7rem 0' }}>{pointsInfo.source.label}</a>
+            </>
+          ) : (
+            <p className="small muted">Retrait non renseigné pour cette fiche. Cela ne signifie pas qu'aucun point n'est retiré.</p>
+          )}
+        </div>
 
         <div className="card" style={{ marginTop: '1rem' }}>
           <h2>Articles définissant l'infraction</h2>

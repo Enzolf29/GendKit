@@ -1,4 +1,15 @@
-# Journal des versions — GendKit
+# Journal des versions - GendKit
+
+## 0.10.0 - 2026-09-05
+
+- Barème des retraits de points remplacé par des correspondances explicites issues du référentiel DSR/GNDC publié par l'ONISR (bilan 2024, pages 74-75), avec compléments législatifs. Ajout du sens interdit (NATINF 256 : 4 points) et de nombreuses fiches manquantes.
+- Correction des retraits omis à tort : détecteurs de radar, éclairage nocturne, distances de sécurité, ligne de bande d'arrêt d'urgence, gants à moto et conduite malgré suspension (5707). Correction inverse des gants sur cyclomoteur : aucun retrait.
+- Distinction conducteur/passager et responsabilité pécuniaire L121-3. Affichage explicite d'un retrait connu, de zéro point ou d'une information non renseignée ; source consultable dans les fiches. La couverture reste partielle.
+- Association stupéfiants et alcool au seuil légal : 9 points. L'annulation n'est plus confondue avec le barème numérique des points.
+- Historique des dernières mises à jour accessible dans À propos et disponible hors connexion.
+- Tests de non-régression exécutés avant chaque déploiement.
+
+**Rectificatif sur l'historique :** la vérification annoncée en 0.5.1 comportait des erreurs. Les anciennes affirmations d'absence de retrait pour les détecteurs de radar, l'éclairage nocturne, les distances sur ouvrage à risque, la ligne de bande d'arrêt d'urgence et le NATINF 5707 sont erronées et remplacées par cette version. Un permis suspendu peut toujours faire l'objet d'un retrait de points.
 
 ## 0.9.0 — 2026-08-18
 

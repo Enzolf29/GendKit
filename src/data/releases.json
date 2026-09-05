@@ -1,0 +1,25 @@
+[
+  {
+    "version": "0.10.0", "date": "2026-09-05", "title": "Retraits de points et historique des versions",
+    "changes": [
+      "Barème NATINF élargi à partir du référentiel officiel ONISR et complété avec les textes en vigueur : sens interdit, priorités, dépassements, passages à niveau et autres infractions routières.",
+      "Correction de retraits omis à tort : détecteurs de radar, éclairage nocturne, distances de sécurité, ligne de bande d'arrêt d'urgence, gants à moto et conduite malgré suspension (NATINF 5707).",
+      "Distinction entre conducteur, passager, cyclomoteur et titulaire seulement redevable de l'amende. Le passager sans ceinture ne perd pas de points.",
+      "Les fiches distinguent un retrait connu, l'absence de retrait et une information non renseignée. Les sources sont consultables depuis la fiche.",
+      "Ajout des 9 points pour l'association stupéfiants et alcool au seuil légal. L'annulation du permis n'est plus affichée à la place du nombre de points.",
+      "Nouvel historique des mises à jour dans À propos, disponible hors connexion."
+    ]
+  },
+  {
+    "version": "0.9.0", "date": "2026-08-18", "title": "Navigation et photos PVE",
+    "changes": ["La flèche de retour et le nom de la catégorie restent visibles pendant le défilement.", "Retrait de la lecture automatique des plaques, insuffisamment fiable. La saisie manuelle et les photos agrandissables sont conservées."]
+  },
+  {
+    "version": "0.8.0", "date": "2026-08-18", "title": "Classement des NATINF",
+    "changes": ["Séparation des catégories de transport et des autres infractions, avec accès direct à l'IPM, aux stupéfiants, à l'outrage et à la rébellion.", "Retour automatique en haut de page lors de la navigation entre catégories."]
+  },
+  {
+    "version": "0.6.0", "date": "2026-08-18", "title": "Confort sur téléphone",
+    "changes": ["Correction de la visibilité des boutons favori et fermeture des fiches.", "Conservation de la recherche et des filtres lors du retour dans l'application."]
+  }
+]
