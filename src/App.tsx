@@ -5,16 +5,18 @@ import NatinfScreen from './screens/NatinfScreen'
 import VitesseScreen from './screens/VitesseScreen'
 import AlcoolScreen from './screens/AlcoolScreen'
 import PveScreen from './screens/PveScreen'
+import MemosScreen from './screens/MemosScreen'
 import AboutScreen from './screens/AboutScreen'
 import UpdateBanner from './components/UpdateBanner'
 import logo from './assets/logo.png'
-import { IconScale, IconGauge, IconDroplet, IconClipboard, IconInfo } from './components/icons'
+import { IconScale, IconGauge, IconDroplet, IconClipboard, IconNote, IconInfo } from './components/icons'
 
 const mainTabs: { id: Tab; label: string; icon: typeof IconScale }[] = [
   { id: 'natinf', label: 'NATINF', icon: IconScale },
   { id: 'vitesse', label: 'Vitesse', icon: IconGauge },
   { id: 'alcool', label: 'Alcool', icon: IconDroplet },
   { id: 'pve', label: 'PVE', icon: IconClipboard },
+  { id: 'memos', label: 'Mémos', icon: IconNote },
 ]
 
 const aboutTab: { id: Tab; label: string; icon: typeof IconScale } = { id: 'about', label: 'À propos', icon: IconInfo }
@@ -24,6 +26,7 @@ const titles: Record<Tab, string> = {
   vitesse: 'Vitesse',
   alcool: 'Alcool',
   pve: 'PVE',
+  memos: 'Fiches mémo',
   about: 'À propos',
 }
 
@@ -73,6 +76,7 @@ function Shell() {
             {tab === 'vitesse' && <VitesseScreen />}
             {tab === 'alcool' && <AlcoolScreen />}
             {tab === 'pve' && <PveScreen />}
+            {tab === 'memos' && <MemosScreen />}
             {tab === 'about' && <AboutScreen />}
           </main>
         </div>

@@ -1,0 +1,66 @@
+{
+  "memos": [
+    {
+      "id": "edpm-trottinettes",
+      "title": "EDPM – Trottinettes",
+      "subtitle": "Engins de déplacement personnel motorisés",
+      "icon": "🛴",
+      "sections": [
+        {
+          "title": "Obligations",
+          "tone": "ok",
+          "items": [
+            "Circulation sur voies vertes / pistes cyclables, le cas échéant",
+            "Circulation sur les accotements équipés d’un revêtement routier",
+            "Circulation sur les routes limitées à 50 km/h ou moins",
+            "Conducteur âgé d’au moins 14 ans",
+            "Bridage à 25 km/h",
+            "Port obligatoire du casque pour les mineurs",
+            "Port d’un GHV de nuit ou lorsque la visibilité n’est pas suffisante",
+            "Feux avant et arrière, avertisseur sonore, dispositifs réfléchissants",
+            "Assurance responsabilité civile prenant en charge l’EDPM"
+          ]
+        },
+        {
+          "title": "Interdictions",
+          "tone": "ko",
+          "items": [
+            "Circulation hors agglomération, sauf si voies vertes / pistes cyclables",
+            "Circulation sur les trottoirs",
+            "Remorquage de l’EDPM",
+            "Transport d’un passager",
+            "Débridage de l’EDPM",
+            "Utilisation du téléphone ou d’écouteurs"
+          ]
+        },
+        {
+          "title": "Exceptions",
+          "tone": "info",
+          "items": [
+            "Circulation sur les trottoirs par arrêté municipal",
+            "Circulation hors agglomération sur arrêté municipal, avec casque, GHV et dispositif d’éclairage"
+          ]
+        }
+      ],
+      "natinf": [
+        { "numero": "33350", "classe": 4, "infraction": "Transformation d’un EDPM pour dépasser la limite de 25 km/h" },
+        { "numero": "33352", "classe": 2, "infraction": "Circulation de front sur une chaussée en agglomération" },
+        { "numero": "33353", "classe": 4, "infraction": "Circulation hors piste/bande cyclable si elle existe" },
+        { "numero": "33354", "classe": 4, "infraction": "Circulation sur une voie interdite à ces véhicules (+ 50 km/h)" },
+        { "numero": "33355", "classe": 2, "infraction": "Circulation sur un trottoir (si autorisé), à une allure excédant le pas" },
+        { "numero": "33356", "classe": 2, "infraction": "Circulation sur un trottoir, gênant pour les piétons" },
+        { "numero": "33357", "classe": 2, "infraction": "Utilisation d’un EDPM pour tracter une charge ou un véhicule" },
+        { "numero": "33358", "classe": 2, "infraction": "Utilisation d’un EDPM pour pousser une charge ou un véhicule" },
+        { "numero": "33359", "classe": 2, "infraction": "Utilisation d’un véhicule pour se faire remorquer" },
+        {
+          "numero": "33360",
+          "classe": 4,
+          "infraction": "Accompagnement d’un conducteur d’EDPM âgé de moins de 14 ans",
+          "note": "Seul l’accompagnant majeur est punissable, s’il exerce une autorité de droit ou de fait sur le conducteur."
+        },
+        { "numero": "33361", "classe": 2, "infraction": "Conduite de nuit, sans GHV ou équipement rétro-réfléchissant" },
+        { "numero": "33362", "classe": 4, "infraction": "Transport de passager" }
+      ]
+    }
+  ]
+}

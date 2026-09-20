@@ -714,7 +714,7 @@ p {
   align-items: center;
   gap: 0.6rem;
   position: sticky;
-  top: 0;
+  top: -1rem;
   z-index: 5;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -927,3 +927,97 @@ p {
 .release-entry h3 { font-size: 1rem; margin: 0.5rem 0; }
 .release-entry ul { padding-left: 1.2rem; margin: 0.5rem 0; }
 .release-entry li { margin: 0.65rem 0; line-height: 1.5; font-size: 0.9rem; }
+
+.memo-list-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.memo-card {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  box-shadow: var(--shadow);
+  text-align: left;
+  cursor: pointer;
+}
+
+.memo-card-icon {
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.memo-card-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.memo-section h2 {
+  margin-bottom: 0.5rem;
+}
+
+.memo-section ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.memo-section li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.memo-section li:last-child {
+  border-bottom: none;
+}
+
+.memo-marker {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.memo-section.ok h2,
+.memo-section.ok .memo-marker {
+  color: var(--green);
+}
+
+.memo-section.ko h2,
+.memo-section.ko .memo-marker {
+  color: var(--red);
+}
+
+.memo-section.info h2,
+.memo-section.info .memo-marker {
+  color: var(--amber);
+}
+
+.memo-section.ok .memo-marker {
+  background: rgba(34, 197, 94, 0.16);
+}
+
+.memo-section.ko .memo-marker {
+  background: rgba(225, 52, 30, 0.16);
+}
+
+.memo-section.info .memo-marker {
+  background: rgba(245, 165, 36, 0.16);
+}

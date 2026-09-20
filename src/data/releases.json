@@ -1,5 +1,13 @@
 [
   {
+    "version": "0.11.0", "date": "2026-09-20", "title": "Fiches mémo",
+    "changes": [
+      "Nouvel onglet Mémos : fiches de terrain consultables hors connexion. Première fiche : EDPM - Trottinettes, avec obligations, interdictions, exceptions et NATINF associés.",
+      "Un toucher sur un NATINF d'une fiche mémo ouvre la fiche NATINF complète.",
+      "Le bandeau flèche retour reste collé au bord haut de l'écran pendant le défilement."
+    ]
+  },
+  {
     "version": "0.10.0", "date": "2026-09-05", "title": "Retraits de points et historique des versions",
     "changes": [
       "Barème NATINF élargi à partir du référentiel officiel ONISR et complété avec les textes en vigueur : sens interdit, priorités, dépassements, passages à niveau et autres infractions routières.",

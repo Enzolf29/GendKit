@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from '
 import type { NatinfRef } from './types'
 import { usePersistentState } from './usePersistentState'
 
-export type Tab = 'natinf' | 'vitesse' | 'alcool' | 'pve' | 'about'
+export type Tab = 'natinf' | 'vitesse' | 'alcool' | 'pve' | 'memos' | 'about'
 export type Theme = 'dark' | 'light'
 
 export interface PendingTransfer {

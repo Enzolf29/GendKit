@@ -1,5 +1,11 @@
 # Journal des versions - GendKit
 
+## 0.11.0 - 2026-09-20
+
+- **Nouvel onglet « Mémos »** : des fiches mémo de terrain, consultables hors connexion. Première fiche : EDPM - Trottinettes (obligations, interdictions, exceptions et tableau des NATINF associés, chacun ouvrant la fiche NATINF complète au toucher).
+- Les fiches sont décrites dans un fichier de données (`src/data/memos.json`) : en ajouter une ne demande aucun code.
+- Le bandeau flèche retour + titre reste maintenant collé au bord haut de l'écran pendant le défilement, sans laisser de vide au-dessus.
+
 ## 0.10.0 - 2026-09-05
 
 - Barème des retraits de points remplacé par des correspondances explicites issues du référentiel DSR/GNDC publié par l'ONISR (bilan 2024, pages 74-75), avec compléments législatifs. Ajout du sens interdit (NATINF 256 : 4 points) et de nombreuses fiches manquantes.
