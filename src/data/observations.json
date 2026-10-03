@@ -1,10 +1,10 @@
 {
   "source": "Remarques ponctuelles vérifiées individuellement (textes cités dans chaque note) — liste volontairement restreinte aux cas confirmés, pas de déduction automatique.",
-  "lastVerified": "2026-08-17",
+  "lastVerified": "2026-10-03",
   "entries": [
     {
       "natinf": "23800",
-      "note": "Si cette infraction est commise en même temps qu'une autre infraction aux règles de conduite, de vitesse, de croisement, de dépassement, d'intersection ou de priorité, le permis peut être retenu puis suspendu administrativement jusqu'à 6 mois (art. R.224-19-1 C.route, décret n° 2020-605 du 18 mai 2020)."
+      "note": "Peine complémentaire encourue : suspension du permis de conduire jusqu'à 3 ans (art. R.412-6-1 C.route). Si cette infraction est commise en même temps qu'une autre infraction aux règles de conduite, de vitesse, de croisement, de dépassement, d'intersection ou de priorité, le permis peut être retenu (art. L.224-1) puis suspendu par le préfet jusqu'à 6 mois (art. L.224-2, décret n° 2020-605 du 18 mai 2020)."
     },
     {
       "natinf": "13322",
@@ -12,27 +12,27 @@
     },
     {
       "natinf": "1247",
-      "note": "Peines complémentaires encourues : suspension du permis jusqu'à 3 ans (non aménageable), voire annulation avec interdiction de repasser le permis jusqu'à 3 ans, et confiscation possible du véhicule (art. L.234-2 C.route)."
+      "note": "Peines complémentaires encourues : suspension du permis jusqu'à 5 ans, non limitée à l'usage professionnel ; annulation avec interdiction de repasser le permis jusqu'à 5 ans ; confiscation du véhicule si le condamné en est propriétaire (art. L.234-2 C.route, durées portées de 3 à 5 ans par la loi n° 2026-798, en vigueur le 20 août 2026 : 3 ans pour des faits antérieurs)."
     },
     {
       "natinf": "41",
-      "note": "Mêmes peines complémentaires que la conduite en état alcoolique : suspension du permis jusqu'à 3 ans, voire annulation avec interdiction de repasser le permis jusqu'à 3 ans (art. L.234-2 C.route)."
+      "note": "Mêmes peines complémentaires que pour la conduite en état alcoolique (NATINF 1247) : suspension du permis jusqu'à 5 ans, annulation avec interdiction de repasser le permis jusqu'à 5 ans, confiscation du véhicule si le condamné en est propriétaire (art. L.234-2 C.route, durées en vigueur depuis le 20 août 2026 : 3 ans pour des faits antérieurs)."
     },
     {
       "natinf": "51",
-      "note": "Peine identique au délit de conduite en état alcoolique : suspension du permis jusqu'à 3 ans possible (art. L.234-8 renvoyant à L.234-2 C.route)."
+      "note": "Peines complémentaires encourues : suspension du permis jusqu'à 3 ans, annulation avec interdiction de repasser le permis jusqu'à 3 ans, confiscation du véhicule si le condamné en est propriétaire (art. L.234-8 renvoyant à L.234-2 C.route, avec des durées maximales de 3 ans pour ce délit)."
     },
     {
       "natinf": "2000",
-      "note": "Peine identique au délit de conduite en état alcoolique : suspension du permis jusqu'à 3 ans possible (art. L.234-8 renvoyant à L.234-2 C.route)."
+      "note": "Délit fondé sur le Code de la santé publique (art. L.3354-1 et L.3354-2) : 1 an d'emprisonnement et 3 750 € d'amende. Ce texte ne prévoit pas de suspension du permis de conduire : ne pas confondre avec le refus du conducteur de se soumettre aux vérifications (NATINF 51, art. L.234-8 C.route)."
     },
     {
       "natinf": "23761",
-      "note": "Peine complémentaire encourue : suspension du permis jusqu'à 5 ans, non limitée à l'usage professionnel et non aménageable (art. L.235-1 C.route) — durée plus longue que pour l'alcool."
+      "note": "Peines complémentaires encourues : suspension du permis jusqu'à 5 ans, non limitée à l'usage professionnel ; annulation avec interdiction de repasser le permis jusqu'à 5 ans ; confiscation du véhicule, obligatoire si l'infraction est commise avec un état alcoolique (art. L.235-1 C.route)."
     },
     {
       "natinf": "22988",
-      "note": "Peine complémentaire encourue : suspension du permis jusqu'à 5 ans, non limitée à l'usage professionnel et non aménageable (art. L.235-1 C.route) — durée plus longue que pour l'alcool."
+      "note": "Peines complémentaires encourues : suspension du permis jusqu'à 3 ans, non limitée à l'usage professionnel ; annulation avec interdiction de repasser le permis jusqu'à 3 ans (art. L.235-3 C.route, peines propres à ce refus et plus courtes que pour la conduite après usage de stupéfiants, NATINF 23761)."
     },
     {
       "natinf": "11301",
@@ -52,7 +52,7 @@
     },
     {
       "natinf": "7953",
-      "note": "Peines complémentaires encourues : confiscation du véhicule obligatoire si le conducteur en est propriétaire, interdiction de conduire certains véhicules jusqu'à 5 ans ; si l'infraction fait suite à une suspension ou un retrait, annulation du permis avec interdiction d'en repasser un jusqu'à 3 ans (art. L.224-16 C.route)."
+      "note": "Délit fondé sur le Code pénal (art. 434-41) : violation par le condamné de l'obligation résultant d'une peine judiciaire de suspension du permis, punie de 2 ans d'emprisonnement et 30 000 € d'amende. Confiscation de la chose ayant servi à commettre l'infraction encourue (art. 434-44 C.pénal). Ne pas confondre avec le NATINF 5707 (conduite malgré suspension administrative ou rétention, art. L.224-16 C.route), qui a ses propres peines complémentaires."
     }
   ]
 }

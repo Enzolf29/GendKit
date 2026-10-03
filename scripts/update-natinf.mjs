@@ -12,6 +12,43 @@ import { parse } from "csv-parse/sync";
 const DATASET_API =
   "https://www.data.gouv.fr/api/1/datasets/liste-des-infractions-en-vigueur-de-la-nomenclature-natinf/";
 
+// L'encodage du fichier officiel change selon les éditions : Latin-1 (avril 2026),
+// CP850 (juillet 2026), peut-être UTF-8 un jour. On le détecte plutôt que de le
+// supposer : un mauvais choix transforme « Délit » en « D‚lit » et casse les filtres.
+const CP850_HIGH =
+  "ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜø£Ø×ƒáíóúñÑªº¿®¬½¼¡«»░▒▓│┤ÁÂÀ©╣║╗╝¢¥┐└┴┬├─┼ãÃ╚╔╩╦╠═╬¤" +
+  "ðÐÊËÈıÍÎÏ┘┌█▄¦Ì▀ÓßÔÒõÕµþÞÚÛÙýÝ¯´­±‗¾¶§÷¸°¨·¹³²■ ";
+
+function decodeCp850(bytes) {
+  let out = "";
+  for (const b of bytes) {
+    if (b < 0x80) out += String.fromCharCode(b);
+    // Le ministère exporte « Œ » en 0xA8 (« ¿ » en CP850) ; les éditions précédentes
+    // l'écrivaient « OE » (« OEUVRE »), on garde cette convention pour la recherche.
+    else if (b === 0xa8) out += "OE";
+    else out += CP850_HIGH[b - 0x80];
+  }
+  return out;
+}
+
+function decodeCsv(bytes) {
+  try {
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  } catch {
+    // pas de l'UTF-8 valide : on départage Latin-1 / CP850
+  }
+  // Dans « Délit », « é » vaut 0x82 en CP850 mais 0xE9 en Latin-1.
+  const count = (v) => bytes.reduce((n, b) => n + (b === v ? 1 : 0), 0);
+  const latin1Score = count(0xe9);
+  const cp850Score = count(0x82);
+  if (cp850Score > latin1Score) {
+    console.log("Encodage détecté : CP850");
+    return decodeCp850(bytes);
+  }
+  console.log("Encodage détecté : ISO-8859-1");
+  return new TextDecoder("iso-8859-1").decode(bytes);
+}
+
 async function main() {
   console.log("Recherche de la dernière ressource NATINF sur data.gouv.fr...");
   const datasetRes = await fetch(DATASET_API);
@@ -32,8 +69,7 @@ async function main() {
   if (!csvRes.ok) throw new Error(`Échec du téléchargement (${csvRes.status})`);
   const buffer = await csvRes.arrayBuffer();
 
-  // Le fichier officiel est encodé en ISO-8859-1 (Latin-1).
-  const text = new TextDecoder("iso-8859-1").decode(buffer);
+  const text = decodeCsv(new Uint8Array(buffer));
 
   const rows = parse(text, {
     delimiter: ";",

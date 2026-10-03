@@ -1,5 +1,20 @@
 # Journal des versions - GendKit
 
+## 0.11.1 - 2026-10-03
+
+- **Base NATINF mise à jour** : édition de juillet 2026 du Ministère de la Justice (17 163 infractions, contre 17 168 en avril) : 90 infractions ajoutées (dont les crimes et délits de guerre, NATINF 40099 et suivants), 95 retirées (essentiellement douanes, formation professionnelle, vente en liquidation et démarchage assurance), ainsi que des mises à jour d'articles de peine et de références.
+- Aucun des NATINF utilisés par le barème de points, les mémos ou les observations n'a été retiré ou requalifié.
+- **Vérification des retraits de points et des suspensions** (recoupement avec Légifrance et la fiche NATINFo de chaque infraction) :
+  - NATINF 29130 (conduite malgré interdiction, antidémarrage éthylotest) : L234-16 ne prévoit aucune réduction de points, la fiche affichait 6 points à tort.
+  - NATINF 35273 et 35274 (excès de moins de 5 km/h) : 0 point dans le barème Vitesse aussi, comme dans le barème principal (aucun retrait depuis le 1er janvier 2024).
+  - NATINF 7953 (violation d'une suspension judiciaire, Code pénal 434-41) : la note décrivait par erreur les peines de l'article L224-16, qui concernent le NATINF 5707.
+  - NATINF 2000 (refus de vérification, Code de la santé publique) : la note annonçait à tort une suspension de permis jusqu'à 3 ans, que ce texte ne prévoit pas.
+  - Alcool (NATINF 1247 et 41) : suspension et annulation portées à 5 ans maximum par l'article L234-2 dans sa version en vigueur depuis le 20 août 2026 (3 ans pour des faits antérieurs). Le refus de vérification (NATINF 51) reste à 3 ans.
+  - NATINF 22988 (refus d'analyse stupéfiants, L235-3) : 3 ans de suspension maximum, et non 5. NATINF 23761 : mention erronée « durée plus longue que pour l'alcool » retirée.
+  - NATINF 23800 (téléphone) : ajout de la suspension jusqu'à 3 ans (R412-6-1), article de la rétention corrigé (L224-1 et L224-2).
+  - Tests de non-régression ajoutés : concordance automatique des points entre les barèmes Vitesse, Alcool et le barème principal.
+- Le script de mise à jour détecte désormais l'encodage du fichier officiel (il a changé de Latin-1 à CP850 entre les deux éditions, ce qui aurait transformé « Délit » en « D‚lit » et cassé les filtres).
+
 ## 0.11.0 - 2026-09-20
 
 - **Nouvel onglet « Mémos »** : des fiches mémo de terrain, consultables hors connexion. Première fiche : EDPM - Trottinettes (obligations, interdictions, exceptions et tableau des NATINF associés, chacun ouvrant la fiche NATINF complète au toucher).

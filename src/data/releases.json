@@ -1,5 +1,14 @@
 [
   {
+    "version": "0.11.1", "date": "2026-10-03", "title": "Mise à jour de la base NATINF",
+    "changes": [
+      "Base NATINF de juillet 2026 : 17 163 infractions, 90 ajoutées (dont les crimes et délits de guerre) et 95 retirées (surtout douanes, formation professionnelle, vente en liquidation).",
+      "Articles de peine et références de règlements mis à jour sur plusieurs milliers d'infractions.",
+      "Les NATINF du barème de points et des fiches mémo n'ont pas changé.",
+      "Vérification des points et des suspensions : 29130 (0 point), 7953 et 2000 (notes corrigées), alcool à 5 ans de suspension maximum (L234-2), refus d'analyse stupéfiants à 3 ans (22988), suspension ajoutée pour le téléphone (23800)."
+    ]
+  },
+  {
     "version": "0.11.0", "date": "2026-09-20", "title": "Fiches mémo",
     "changes": [
       "Nouvel onglet Mémos : fiches de terrain consultables hors connexion. Première fiche : EDPM - Trottinettes, avec obligations, interdictions, exceptions et NATINF associés.",

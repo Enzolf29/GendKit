@@ -27,6 +27,7 @@ const regressions = {
   '202': 6, '26959': 6, '26960': 6, '28031': 6,
   '6091': 4, '6102': 3, '11063': 4, '31063': 3,
   '50': 6, '42': 6, '35564': 2, '35940': 6,
+  '29130': 0, // L234-16 : aucune réduction de points, contrairement aux autres délits alcool
 }
 
 for (const [id, expected] of Object.entries(regressions)) {
@@ -67,4 +68,21 @@ test('La version affichée dans les nouveautés correspond à la version livrée
   assert.equal(releases[0].version, read('../package.json').version)
   assert.equal(read('../package-lock.json').version, releases[0].version)
   assert.equal(new Set(releases.map((r) => r.version)).size, releases.length)
+})
+
+test('Les points des barèmes Vitesse et Alcool concordent avec le barème principal', () => {
+  const speed = read('../src/data/speed-brackets.json').brackets
+  const alcohol = read('../src/data/alcohol-brackets.json').standardBrackets
+  for (const row of [...speed, ...alcohol]) {
+    if (row.points === undefined) continue
+    assert.equal(getPointsForNatinf(entry(row.natinf))?.points, row.points, `NATINF ${row.natinf}`)
+  }
+})
+
+test('Les notes de suspension ne mélangent pas les NATINF du Code pénal, du Code de la santé publique et du Code de la route', () => {
+  const notes = Object.fromEntries(read('../src/data/observations.json').entries.map((e) => [e.natinf, e.note]))
+  assert.doesNotMatch(notes['7953'], /L\.224-16 C\.route\)\.$/) // 7953 relève de l'article 434-41 du Code pénal
+  assert.match(notes['7953'], /434-41/)
+  assert.match(notes['2000'], /L\.3354-2/)
+  assert.doesNotMatch(notes['2000'], /suspension du permis jusqu'à 3 ans possible/)
 })
