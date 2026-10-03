@@ -1,5 +1,13 @@
 [
   {
+    "version": "0.11.3", "date": "2026-10-03", "title": "Contrôle technique et favoris",
+    "changes": [
+      "Le maintien en circulation sans contrôle technique (voiture, utilitaire) est de nouveau trouvable dans Code de la route › Contrôle technique : il était rangé à tort en Poids Lourds.",
+      "68 infractions mieux classées : véhicules légers, surcharges de poids, ventes de véhicules, taxis et transports sanitaires sans visite technique.",
+      "Favoris : un dossier ouvert montre la même liste que la recherche, un toucher ouvre la fiche détaillée."
+    ]
+  },
+  {
     "version": "0.11.2", "date": "2026-10-03", "title": "Favoris en dossiers",
     "changes": [
       "Les dossiers de favoris sont repliés : un toucher les ouvre et affiche leurs infractions (NATINF, intitulé, catégorie complète).",

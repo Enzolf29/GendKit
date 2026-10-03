@@ -1,5 +1,5 @@
 import type { NatinfEntry } from './types'
-import { getCategory as getLegacyCategory } from './category'
+import { getCategory as getLegacyCategory } from './category.ts'
 
 // Classement à deux sections pour l'écran NATINF :
 //
@@ -24,12 +24,19 @@ interface TopRule {
 // l'ensemble du texte (indépendamment du code juridique cité), puis
 // « Code de la route » récupère le reste des infractions C.ROUTE., puis les
 // infractions courantes non liées à un véhicule.
+// Un poids lourd se reconnaît à un PTAC (ou poids total autorisé en charge) SUPÉRIEUR à un
+// seuil en tonnes, pas à la simple mention de « PTAC » : « PTAC inférieur à 3,5 tonnes »
+// désigne au contraire les véhicules légers (voitures, utilitaires, ventes de véhicules...).
+const HEAVY_WEIGHT =
+  '(?:PTAC|POIDS TOTAL AUTORISE EN CHARGE)\\s*(?:EST\\s*)?(?:>|SUPERIEUR|EXCEDE|DEPASSE)\\s*(?:A\\s*)?(?:3,\\s?5|7,\\s?5|10|12|19|26)\\b' +
+  '|(?:PLUS DE|SUPERIEUR A)\\s*3,\\s?5 TONNES'
+
 const TOP_RULES: TopRule[] = [
   { top: 'Aérien', pattern: /AERONEF|AERODROME|A[EÉ]RIEN|CIRCULATION AERIENNE/i },
-  { top: 'Ferroviaire', pattern: /FERROVIAIRE|CHEMIN DE FER|\bTRAIN\b|VOIE FERREE|PASSAGE A NIVEAU/i },
+  { top: 'Ferroviaire', pattern: /FERROVIAIRE|CHEMIN DE FER|\bTRAIN\b(?! ROUTIER)|VOIE FERREE|PASSAGE A NIVEAU/i },
   { top: 'Maritime', pattern: /MARITIME|NAVIRE|\bBATEAU\b|NAVIGATION|PLAISANCE|\bMARIN\b/i },
   { top: '2 Roues', pattern: /MOTOCYCLETTE|CYCLOMOTEUR|SCOOTER|DEUX-ROUES|DEUX ROUES|\bMOTO\b|TRICYCLE A MOTEUR|QUADRICYCLE (LEGER )?A MOTEUR/i },
-  { top: 'Poids Lourds', pattern: /POIDS LOURD|TACHYGRAPHE|TEMPS DE CONDUITE|TRANSPORT ROUTIER DE MARCHANDISES|SEMI-REMORQUE|MARCHANDISES DANGEREUSES|\bPTAC\b|VEHICULE LOURD/i },
+  { top: 'Poids Lourds', pattern: new RegExp('POIDS LOURD|TACHYGRAPHE|TEMPS DE CONDUITE|TRANSPORT ROUTIER DE MARCHANDISES|SEMI-REMORQUE|MARCHANDISES DANGEREUSES|VEHICULE LOURD|' + HEAVY_WEIGHT, 'i') },
 ]
 
 const COMMON_RULES: TopRule[] = [
@@ -102,6 +109,8 @@ const SUB_RULES: SubRule[] = [
   { top: 'Code de la route', sub: 'Accidents et fuite', subSub: 'Délit de fuite', pattern: /DELIT DE FUITE/ },
   { top: 'Code de la route', sub: 'Accidents et fuite', subSub: "Refus d'obtempérer", pattern: /OBTEMPERER/ },
   { top: 'Code de la route', sub: 'Accidents et fuite', subSub: 'Blessures et homicides routiers', pattern: /BLESSURES ROUTIERES|HOMICIDE ROUTIER|BLESSURES INVOLONTAIRES.*CONDUCTEUR|HOMICIDE INVOLONTAIRE.*CONDUCTEUR/ },
+  // Avant « Dépassement » : « surcharge ... dépassement du PTAC » parle de poids, pas de doubler.
+  { top: 'Code de la route', sub: 'Poids, chargement et dimensions', pattern: /SURCHARGE|POIDS TOTAL/ },
   { top: 'Code de la route', sub: 'Dépassement et circulation', subSub: 'Dépassement', pattern: /DEPASSEMENT|DEPASSER/ },
   { top: 'Code de la route', sub: 'Dépassement et circulation', subSub: 'Lignes et voies de circulation', pattern: /LIGNE (CONTINUE|DISCONTINUE)|VOIE (DE|RESERVEE)|CHAUSSEE|BANDE D.ARRET|SENS INTERDIT|MARCHE ARRIERE|DEMI-TOUR/ },
   { top: 'Code de la route', sub: 'Dépassement et circulation', subSub: 'Distances de sécurité', pattern: /DISTANCE DE SECURITE/ },
@@ -110,7 +119,7 @@ const SUB_RULES: SubRule[] = [
   { top: 'Code de la route', sub: 'Équipement du conducteur', subSub: 'Téléphone au volant', pattern: /TELEPHONE/ },
   { top: 'Code de la route', sub: 'Équipement et contrôle du véhicule', subSub: 'Éclairage et avertisseurs', pattern: /ECLAIRAGE|\bFEUX\b|AVERTISSEUR/ },
   { top: 'Code de la route', sub: 'Équipement et contrôle du véhicule', subSub: 'Plaques et immatriculation', pattern: /IMMATRICULATION|PLAQUE/ },
-  { top: 'Code de la route', sub: 'Équipement et contrôle du véhicule', subSub: 'Contrôle technique', pattern: /CONTROLE TECHNIQUE/ },
+  { top: 'Code de la route', sub: 'Équipement et contrôle du véhicule', subSub: 'Contrôle technique', pattern: /CONTROLE TECHNIQUE|VISITE TECHNIQUE/ },
   { top: 'Code de la route', sub: 'Équipement et contrôle du véhicule', subSub: 'Vitres teintées', pattern: /VITRES/ },
   { top: 'Code de la route', sub: 'Équipement et contrôle du véhicule', subSub: 'Détecteur ou brouilleur de radar', pattern: /DECELER OU PERTURBER/ },
   { top: 'Code de la route', sub: 'Équipement et contrôle du véhicule', subSub: 'Équipements techniques divers', pattern: /NON EQUIPE|PNEUMATIQUE|FREINAGE|COMPTEUR KILOMETRIQUE|INDICATEUR DE VITESSE/ },
@@ -126,13 +135,14 @@ const SUB_RULES: SubRule[] = [
   { top: '2 Roues', sub: 'Casque et équipement', pattern: /CASQUE|GANTS/ },
   { top: '2 Roues', sub: 'Permis, âge et formation', pattern: /PERMIS|MINEUR|BREVET DE SECURITE ROUTIERE/ },
   { top: '2 Roues', sub: 'Transport de passager', pattern: /PASSAGER|TRANSPORT/ },
+  { top: '2 Roues', sub: 'Contrôle technique', pattern: /CONTROLE TECHNIQUE|VISITE TECHNIQUE/ },
   { top: '2 Roues', sub: 'Circulation et éclairage', pattern: /CIRCULATION|ECLAIRAGE|\bFEU\b|CATADIOPTRE/ },
 
   // --- Poids Lourds ---
   { top: 'Poids Lourds', sub: 'Temps de conduite et tachygraphe', pattern: /TACHYGRAPHE|TEMPS DE CONDUITE|REPOS/ },
+  { top: 'Poids Lourds', sub: 'Contrôle technique et équipements', pattern: /CONTROLE TECHNIQUE|VISITE TECHNIQUE|EQUIPE|DISPOSITIF/ },
   { top: 'Poids Lourds', sub: 'Transport de marchandises', pattern: /MARCHANDISE|LETTRE DE VOITURE/ },
   { top: 'Poids Lourds', sub: 'Poids et dimensions', pattern: /\bPOIDS\b|PTAC|DIMENSION|GABARIT|SURCHARGE|CHARGEMENT/ },
-  { top: 'Poids Lourds', sub: 'Contrôle technique et équipements', pattern: /CONTROLE TECHNIQUE|EQUIPE|DISPOSITIF/ },
 
   // --- Maritime ---
   { top: 'Maritime', sub: 'Pêche maritime', pattern: /PECHE/ },

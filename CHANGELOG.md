@@ -1,5 +1,13 @@
 # Journal des versions - GendKit
 
+## 0.11.3 - 2026-10-03
+
+- **Correctif de classement** : le maintien en circulation d'un véhicule léger sans contrôle technique (NATINF 12522 voiture, 12523 utilitaire) n'apparaissait pas dans « Code de la route › Équipement et contrôle du véhicule › Contrôle technique » : il était rangé en « Poids Lourds » à cause du mot « PTAC », que portent aussi les véhicules de PTAC inférieur à 3,5 tonnes. Le classement distingue désormais PTAC supérieur et inférieur à 3,5 tonnes.
+- Toutes les infractions « sans contrôle technique » ou « sans visite technique » (taxis, transports sanitaires, voitures de remise, deux-roues, petit train routier...) sont regroupées sous une rubrique « Contrôle technique » par mode de transport.
+- 68 infractions mieux rangées au total : véhicules légers sortis de « Poids Lourds », surcharges de poids sorties de « Dépassement », ventes de véhicules rangées en Consommation, véhicules de plus de 3,5 tonnes rangés en Poids Lourds.
+- **Favoris** : un dossier ouvert affiche la même liste que les résultats de recherche (numéro, nature, intitulé). Un toucher ouvre la fiche détaillée, où l'étoile et le sélecteur « Dossier » permettent de retirer ou de ranger le favori.
+- Tests de non-régression ajoutés sur le classement des catégories.
+
 ## 0.11.2 - 2026-10-03
 
 - **Favoris en dossiers repliés** : chaque dossier créé s'affiche sur une ligne (nom + nombre d'infractions) et s'ouvre au toucher. Chaque infraction montre son numéro NATINF, son intitulé et sa catégorie complète (catégorie › sous-catégorie › sous-sous-catégorie) ; un toucher ouvre la fiche détaillée.
