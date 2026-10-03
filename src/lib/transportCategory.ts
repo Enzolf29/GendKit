@@ -184,6 +184,15 @@ export function getSubCategory(top: string, entry: NatinfEntry): SubClassificati
   return { sub: OTHER_LABEL, subSub: null }
 }
 
+// Chemin complet « catégorie › sous-catégorie › sous-sous-catégorie » d'une infraction,
+// sans les niveaux de repli « Autres ».
+export function getCategoryPath(entry: NatinfEntry): string[] {
+  const top = getTopCategory(entry)
+  if (!hasSubCategories(top)) return [top]
+  const { sub, subSub } = getSubCategory(top, entry)
+  return [top, ...(sub !== OTHER_LABEL ? [sub] : []), ...(subSub ? [subSub] : [])]
+}
+
 export function getSubCategories(top: string): string[] {
   const subs = [...new Set(SUB_RULES.filter((r) => r.top === top).map((r) => r.sub))]
   return [...subs, OTHER_LABEL]

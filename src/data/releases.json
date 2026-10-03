@@ -1,5 +1,13 @@
 [
   {
+    "version": "0.11.2", "date": "2026-10-03", "title": "Favoris en dossiers",
+    "changes": [
+      "Les dossiers de favoris sont repliés : un toucher les ouvre et affiche leurs infractions (NATINF, intitulé, catégorie complète).",
+      "Un toucher sur une infraction ouvre sa fiche détaillée.",
+      "Les dossiers vides restent visibles et l'état ouvert/fermé est mémorisé."
+    ]
+  },
+  {
     "version": "0.11.1", "date": "2026-10-03", "title": "Mise à jour de la base NATINF",
     "changes": [
       "Base NATINF de juillet 2026 : 17 163 infractions, 90 ajoutées (dont les crimes et délits de guerre) et 95 retirées (surtout douanes, formation professionnelle, vente en liquidation).",

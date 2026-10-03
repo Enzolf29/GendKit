@@ -1,5 +1,10 @@
 # Journal des versions - GendKit
 
+## 0.11.2 - 2026-10-03
+
+- **Favoris en dossiers repliés** : chaque dossier créé s'affiche sur une ligne (nom + nombre d'infractions) et s'ouvre au toucher. Chaque infraction montre son numéro NATINF, son intitulé et sa catégorie complète (catégorie › sous-catégorie › sous-sous-catégorie) ; un toucher ouvre la fiche détaillée.
+- Les dossiers vides sont maintenant visibles, et les dossiers ouverts restent ouverts après un rechargement de l'app.
+
 ## 0.11.1 - 2026-10-03
 
 - **Base NATINF mise à jour** : édition de juillet 2026 du Ministère de la Justice (17 163 infractions, contre 17 168 en avril) : 90 infractions ajoutées (dont les crimes et délits de guerre, NATINF 40099 et suivants), 95 retirées (essentiellement douanes, formation professionnelle, vente en liquidation et démarchage assurance), ainsi que des mises à jour d'articles de peine et de références.

@@ -7,7 +7,7 @@ import { getAmendeForNature } from '../lib/amendes'
 import { getObservation } from '../lib/observations'
 import { useModalBackButton } from '../lib/useModalBackButton'
 import { usePersistentState } from '../lib/usePersistentState'
-import { TRANSPORT_CATEGORIES, OTHER_CATEGORIES, getCategoryIcon, hasSubCategories, getSubCategories, getSubSubCategories } from '../lib/transportCategory'
+import { TRANSPORT_CATEGORIES, OTHER_CATEGORIES, getCategoryIcon, getCategoryPath, hasSubCategories, getSubCategories, getSubSubCategories } from '../lib/transportCategory'
 import { createFolder, addFavorite, removeFavoriteByNatinf, setFavoriteFolder, deleteFolder } from '../lib/favorites'
 import type { NatinfEntry } from '../lib/types'
 import { useAppState } from '../lib/AppState'
@@ -229,6 +229,7 @@ function FavorisView({ onOpen }: { onOpen: (numero: string) => void }) {
   const favorites = useLiveQuery(() => db.favorites.toArray())
   const [newFolderName, setNewFolderName] = useState('')
   const [showNewFolder, setShowNewFolder] = useState(false)
+  const [openFolders, setOpenFolders] = usePersistentState<string[]>('gendkit-natinf-open-folders', [])
 
   if (!folders || !favorites) return null
 
@@ -240,7 +241,15 @@ function FavorisView({ onOpen }: { onOpen: (numero: string) => void }) {
     setShowNewFolder(false)
   }
 
-  const groups: { id: number | null; name: string }[] = [...folders.map((f) => ({ id: f.id!, name: f.name })), { id: null, name: 'Sans dossier' }]
+  // Les dossiers créés par l'utilisateur sont toujours listés (même vides) ; « Sans dossier »
+  // n'apparaît que s'il contient des favoris. Tous sont repliés par défaut.
+  const groups: { id: number | null; name: string }[] = [...folders.map((f) => ({ id: f.id!, name: f.name })), { id: null, name: 'Sans dossier' }].filter(
+    (g) => g.id !== null || favorites.some((f) => f.folderId === null)
+  )
+
+  function toggleFolder(key: string) {
+    setOpenFolders(openFolders.includes(key) ? openFolders.filter((k) => k !== key) : [...openFolders, key])
+  }
 
   return (
     <div>
@@ -264,45 +273,64 @@ function FavorisView({ onOpen }: { onOpen: (numero: string) => void }) {
         </button>
       )}
 
-      {favorites.length === 0 && <div className="empty-state">Aucun NATINF en favori. Ouvrez une fiche et tapez sur l'étoile pour l'ajouter.</div>}
+      {favorites.length === 0 && folders.length === 0 && <div className="empty-state">Aucun NATINF en favori. Ouvrez une fiche et tapez sur l'étoile pour l'ajouter.</div>}
 
       {groups.map((group) => {
+        const key = String(group.id)
         const items = favorites.filter((f) => f.folderId === group.id)
-        if (items.length === 0) return null
+        const isOpen = openFolders.includes(key)
         return (
-          <div className="card" key={String(group.id)}>
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-              <h2 style={{ flex: 1 }}>{group.name}</h2>
+          <div className="card folder-card" key={key}>
+            <div className="folder-head">
+              <button className="folder-toggle" onClick={() => toggleFolder(key)} aria-expanded={isOpen}>
+                <IconArrowRight className={`folder-chevron${isOpen ? ' open' : ''}`} style={{ width: 18, height: 18 }} />
+                <span className="folder-name">{group.name}</span>
+                <span className="badge">{items.length}</span>
+              </button>
               {group.id !== null && (
                 <button className="icon-btn" onClick={() => deleteFolder(group.id!)} aria-label="Supprimer le dossier">
                   <IconTrash style={{ width: 16, height: 16 }} />
                 </button>
               )}
             </div>
-            {items.map((fav) => (
-              <div className="list-item" key={fav.id}>
-                <div className="content" onClick={() => onOpen(fav.natinf)}>
-                  <span className="num">NATINF {fav.natinf}</span>
-                  <div className="qualif">{fav.qualification}</div>
-                </div>
-                <select
-                  value={fav.folderId ?? ''}
-                  onClick={(e) => e.stopPropagation()}
-                  onChange={(e) => setFavoriteFolder(fav.id!, e.target.value ? Number(e.target.value) : null)}
-                  style={{ background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 8, color: 'var(--text)', fontSize: '0.75rem', padding: '0.3rem', maxWidth: 90 }}
-                >
-                  <option value="">Sans dossier</option>
-                  {folders.map((f) => (
-                    <option key={f.id} value={f.id}>
-                      {f.name}
-                    </option>
-                  ))}
-                </select>
-                <button className="delete-btn" onClick={() => removeFavoriteByNatinf(fav.natinf)} aria-label="Retirer des favoris">
-                  <IconX style={{ width: 16, height: 16 }} />
-                </button>
+            {isOpen && (
+              <div className="folder-items">
+                {items.length === 0 && (
+                  <p className="small muted" style={{ padding: '0.6rem 0 0.2rem' }}>
+                    Dossier vide. Ouvrez une fiche NATINF, ajoutez-la aux favoris avec l'étoile, puis rangez-la ici avec le sélecteur de dossier.
+                  </p>
+                )}
+                {items.map((fav) => {
+                  const entry = getNatinfByNumero(fav.natinf)
+                  const path = entry ? getCategoryPath(entry) : []
+                  return (
+                    <div className="list-item" key={fav.id}>
+                      <div className="content" onClick={() => onOpen(fav.natinf)}>
+                        <span className="num">NATINF {fav.natinf}</span>
+                        <div className="qualif">{fav.qualification}</div>
+                        {path.length > 0 && <div className="small muted fav-path">{path.join(' › ')}</div>}
+                      </div>
+                      <select
+                        value={fav.folderId ?? ''}
+                        onClick={(e) => e.stopPropagation()}
+                        onChange={(e) => setFavoriteFolder(fav.id!, e.target.value ? Number(e.target.value) : null)}
+                        style={{ background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 8, color: 'var(--text)', fontSize: '0.75rem', padding: '0.3rem', maxWidth: 90 }}
+                      >
+                        <option value="">Sans dossier</option>
+                        {folders.map((f) => (
+                          <option key={f.id} value={f.id}>
+                            {f.name}
+                          </option>
+                        ))}
+                      </select>
+                      <button className="delete-btn" onClick={() => removeFavoriteByNatinf(fav.natinf)} aria-label="Retirer des favoris">
+                        <IconX style={{ width: 16, height: 16 }} />
+                      </button>
+                    </div>
+                  )
+                })}
               </div>
-            ))}
+            )}
           </div>
         )
       })}
