@@ -243,7 +243,11 @@ function FavorisView({ onOpen }: { onOpen: (numero: string) => void }) {
 
   // Les dossiers créés par l'utilisateur sont toujours listés (même vides) ; « Sans dossier »
   // n'apparaît que s'il contient des favoris. Tous sont repliés par défaut.
-  const groups: { id: number | null; name: string }[] = [...folders.map((f) => ({ id: f.id!, name: f.name })), { id: null, name: 'Sans dossier' }].filter(
+  // Dossiers par ordre alphabétique (accents et casse ignorés), « Sans dossier » toujours en dernier.
+  const sortedFolders = folders
+    .map((f) => ({ id: f.id!, name: f.name }))
+    .sort((a, b) => a.name.localeCompare(b.name, 'fr', { sensitivity: 'base', numeric: true }))
+  const groups: { id: number | null; name: string }[] = [...sortedFolders, { id: null, name: 'Sans dossier' }].filter(
     (g) => g.id !== null || favorites.some((f) => f.folderId === null)
   )
 
@@ -277,7 +281,8 @@ function FavorisView({ onOpen }: { onOpen: (numero: string) => void }) {
 
       {groups.map((group) => {
         const key = String(group.id)
-        const items = favorites.filter((f) => f.folderId === group.id)
+        // Dans un dossier, les infractions sont classées par numéro NATINF croissant.
+        const items = favorites.filter((f) => f.folderId === group.id).sort((a, b) => Number(a.natinf) - Number(b.natinf))
         const isOpen = openFolders.includes(key)
         return (
           <div className="card folder-card" key={key}>

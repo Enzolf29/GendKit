@@ -1,5 +1,10 @@
 # Journal des versions - GendKit
 
+## 0.11.4 - 2026-10-03
+
+- **Sous-catégories de recherche classées par ordre alphabétique** (par exemple dans Code de la route : Accidents et fuite, Âge minimum de conduite, Alcool et stupéfiants, Amende du titulaire...), à tous les niveaux. « Autres » reste toujours en dernier.
+- **Favoris** : les dossiers sont classés par ordre alphabétique (« Sans dossier » en dernier) et, dans chaque dossier, les infractions sont triées par numéro NATINF croissant.
+
 ## 0.11.3 - 2026-10-03
 
 - **Correctif de classement** : le maintien en circulation d'un véhicule léger sans contrôle technique (NATINF 12522 voiture, 12523 utilitaire) n'apparaissait pas dans « Code de la route › Équipement et contrôle du véhicule › Contrôle technique » : il était rangé en « Poids Lourds » à cause du mot « PTAC », que portent aussi les véhicules de PTAC inférieur à 3,5 tonnes. Le classement distingue désormais PTAC supérieur et inférieur à 3,5 tonnes.

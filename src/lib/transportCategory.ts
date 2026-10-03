@@ -203,13 +203,17 @@ export function getCategoryPath(entry: NatinfEntry): string[] {
   return [top, ...(sub !== OTHER_LABEL ? [sub] : []), ...(subSub ? [subSub] : [])]
 }
 
+// Ordre alphabétique français (accents ignorés : « Équipement » se range à E).
+const alphabetical = (a: string, b: string) => a.localeCompare(b, 'fr', { sensitivity: 'base' })
+
+// Les sous-catégories s'affichent par ordre alphabétique, « Autres » (le reste) toujours en dernier.
 export function getSubCategories(top: string): string[] {
-  const subs = [...new Set(SUB_RULES.filter((r) => r.top === top).map((r) => r.sub))]
+  const subs = [...new Set(SUB_RULES.filter((r) => r.top === top).map((r) => r.sub))].sort(alphabetical)
   return [...subs, OTHER_LABEL]
 }
 
 export function getSubSubCategories(top: string, sub: string): string[] {
-  return [...new Set(SUB_RULES.filter((r) => r.top === top && r.sub === sub && r.subSub).map((r) => r.subSub as string))]
+  return [...new Set(SUB_RULES.filter((r) => r.top === top && r.sub === sub && r.subSub).map((r) => r.subSub as string))].sort(alphabetical)
 }
 
 // ---- Icônes de repli pour les catégories juridiques existantes (section 2) ----

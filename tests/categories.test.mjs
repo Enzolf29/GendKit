@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { getTopCategory, getCategoryPath } from '../src/lib/transportCategory.ts'
+import { getTopCategory, getCategoryPath, getSubCategories, getSubSubCategories } from '../src/lib/transportCategory.ts'
 
 const dataset = JSON.parse(readFileSync(new URL('../public/data/natinf.json', import.meta.url), 'utf8')).infractions
 const entry = (id) => {
@@ -48,4 +48,19 @@ test('Un petit train routier n\'est pas classé en Ferroviaire', () => {
 
 test('Chaque infraction du dataset reçoit une catégorie', () => {
   for (const e of dataset) assert.ok(getTopCategory(e), `NATINF ${e.numero}`)
+})
+
+test('Les sous-catégories sont classées par ordre alphabétique, « Autres » en dernier', () => {
+  const alpha = (a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' })
+  for (const top of ['Code de la route', '2 Roues', 'Poids Lourds', 'Maritime', 'Ferroviaire', 'Aérien', 'Outrage et rébellion', 'Stupéfiants (usage, détention, trafic)']) {
+    const subs = getSubCategories(top)
+    assert.equal(subs.at(-1), 'Autres', top)
+    const named = subs.slice(0, -1)
+    assert.deepEqual(named, [...named].sort(alpha), `sous-catégories de ${top}`)
+    for (const sub of named) {
+      const subSubs = getSubSubCategories(top, sub)
+      assert.deepEqual(subSubs, [...subSubs].sort(alpha), `${top} › ${sub}`)
+    }
+  }
+  assert.deepEqual(getSubCategories('Code de la route').slice(0, 3), ['Accidents et fuite', 'Âge minimum de conduite', 'Alcool et stupéfiants'])
 })

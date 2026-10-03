@@ -1,5 +1,12 @@
 [
   {
+    "version": "0.11.4", "date": "2026-10-03", "title": "Tri alphabétique",
+    "changes": [
+      "Les sous-catégories de recherche sont classées par ordre alphabétique, « Autres » toujours en dernier.",
+      "Favoris : dossiers par ordre alphabétique et infractions par numéro NATINF croissant dans chaque dossier."
+    ]
+  },
+  {
     "version": "0.11.3", "date": "2026-10-03", "title": "Contrôle technique et favoris",
     "changes": [
       "Le maintien en circulation sans contrôle technique (voiture, utilitaire) est de nouveau trouvable dans Code de la route › Contrôle technique : il était rangé à tort en Poids Lourds.",
